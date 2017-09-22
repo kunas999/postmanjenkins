@@ -29,12 +29,12 @@ http://www.mulesoft.org/schema/mule/api-platform-gw http://www.mulesoft.org/sche
  
 	<!--  All the mule applications will be https one-way ssl enabled -->
  
- 	<http:listener-config name="api-httpListenerConfig" host="0.0.0.0" port="${https.port}" doc:name="HTTP Listener Configuration" protocol="HTTPS">
+ 	<http:listener-config name="api-httpListenerConfig" host="0.0.0.0" port="8092" doc:name="HTTP Listener Configuration" protocol="HTTPS">
         <tls:context>
             <tls:key-store type="jks" path="${tls.filepath}" alias="${tls.alias}" keyPassword="${tls.keyPassword}" password="${tls.password}"/>
         </tls:context>
     </http:listener-config>
-    <apikit:config name="api-config" raml="api.raml" consoleEnabled="${console.enabled}" doc:name="Router" keepRamlBaseUri="false"/>
-    <api-platform-gw:api apiName="${api-autodiscovery-name}" version="${api-autodiscovery-version}" flowRef="api-main" create="true" apikitRef="api-config" doc:name="API Autodiscovery"/>
+    <apikit:config name="api-config" raml="api.raml" consoleEnabled="${console.enabled}" doc:name="Router" keepRamlBaseUri="${keep.raml.uri}"/>
+    <!-- <api-platform-gw:api apiName="${api-autodiscovery-name}" version="${api-autodiscovery-version}" flowRef="api-main" create="true" apikitRef="api-config" doc:name="API Autodiscovery"/> -->
    
 </mule>

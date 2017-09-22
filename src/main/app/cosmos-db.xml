@@ -23,8 +23,15 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
     <flow name="cosmos-dbFlow">
         <message-properties-transformer doc:name="Message Properties"/>
     </flow>
+
+
+    <flow name="cosmos-findAll">			
+		<invoke method="findAll" object-ref="cosmosReservationUtil" doc:name="Invoke"/>		
+        <logger level="INFO"  doc:name="Logger" message="#[message.payloadAs(java.lang.String)]"/>
+        <!-- filter result based on role -->           
+    </flow>
     
-    <flow name="cosmos-findBy">		
+    <flow name="cosmos-findBy">	
 		<!-- <invoke method="findAll" object-ref="cosmosReservation" /> -->
 		<scripting:transformer doc:name="Script" name="params">
 			<scripting:script engine="Groovy">

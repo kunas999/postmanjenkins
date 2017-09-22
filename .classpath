@@ -21,12 +21,8 @@
   <classpathentry kind="var" path="M2_REPO/com/mulesoft/security/mule-module-security-encryption/1.6.2/mule-module-security-encryption-1.6.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/mulesoft/security/mule-module-security-property-placeholder/1.6.2/mule-module-security-property-placeholder-1.6.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/mulesoft/security/security-api/1.6.2/security-api-1.6.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/yaml/snakeyaml/1.17/snakeyaml-1.17.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/4.3.9.RELEASE/spring-aop-4.3.9.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/4.3.9.RELEASE/spring-beans-4.3.9.RELEASE.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/boot/spring-boot/1.5.4.RELEASE/spring-boot-1.5.4.RELEASE.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/boot/spring-boot-autoconfigure/1.5.4.RELEASE/spring-boot-autoconfigure-1.5.4.RELEASE.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/boot/spring-boot-starter/1.5.4.RELEASE/spring-boot-starter-1.5.4.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/4.3.9.RELEASE/spring-context-4.3.9.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/4.3.9.RELEASE/spring-core-4.3.9.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/data/spring-data-commons/1.13.4.RELEASE/spring-data-commons-1.13.4.RELEASE.jar"/>
