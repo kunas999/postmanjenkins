@@ -1,0 +1,12 @@
+[
+  {
+    "organizationCode": "HRAC",
+    "id": "1234",
+    "creditCardNumber": "************5678",
+    "cardholderName": "John Smith",
+    "expDate": "10/2020",
+    "cvv": "123",
+    "cardType": "visa",
+    "customerId": "12345"
+  }
+]

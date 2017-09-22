@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
+    
+    <spring:beans>
+    	<spring:bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosReservationUtil">
+    		 <spring:constructor-arg name="endpoint" value="${cosmos.endpoint}" />
+    		 <spring:constructor-arg name="key" value="${cosmos.key}" />
+    		 <spring:constructor-arg name="pojo" ref = "reservationPojo"/>	
+    	</spring:bean>
+    	<spring:bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo">
+    		<spring:constructor-arg name="databaseName" value="${cosmos.database}" />
+    		<spring:constructor-arg name="collectionId" value="${cosmos.reservation.collection}" />
+    	</spring:bean>
+    </spring:beans>
+    <flow name="cosmos-dbFlow">
+        <message-properties-transformer doc:name="Message Properties"/>
+    </flow>
+    
+    <flow name="cosmos-findBy">		
+		<!-- <invoke method="findAll" object-ref="cosmosReservation" /> -->
+		<scripting:transformer doc:name="Script" name="params">
+			<scripting:script engine="Groovy">
+	           	<![CDATA[
+	           		import groovy.json.JsonBuilder 
+	           		def map = [:]
+	           		map.put('OTA_VehResRQ.pos.source[0].airlineVendorID', 'DL')
+	           		return map
+				]]>
+			</scripting:script>
+		</scripting:transformer>  		
+		<invoke method="findBy" object-ref="cosmosReservationUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>		
+        <logger level="INFO"  doc:name="Logger" message="#[message.payloadAs(java.lang.String)]"/>
+        <!-- filter result based on role -->           
+    </flow>
+    
+</mule>

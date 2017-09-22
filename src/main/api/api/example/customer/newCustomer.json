@@ -1,0 +1,55 @@
+[
+  {
+    "organizationCode": "HRAC",
+    "customerType": "IND",
+    "id": "",
+    "customerName": {
+      "honorificPrefix": "Mr.",
+      "firstName": "John",
+      "addiyionalName": "L",
+      "lastName": "Smith"
+    },
+    "phoneNumbers": [{
+      "phoneId": "",
+      "phoneNumber": "111-222-3333",
+      "phoneType": "MOBILE",
+      "countryCode": "US"
+    }],
+    "email": [{
+      "emailId": "",
+      "emailAddress": "a@abc.com",
+      "preferredEmail": true,
+      "emailType": "HOME"
+    }],
+    "addresses": [
+      {
+        "addressId": "",
+                  "addressType": "HOME",
+                  "addressLine1": "123 Street",
+                  "city": "Estero",
+                  "postalCode": "33999",
+                  "state": "FL",
+        "country": "US"      
+      }
+    ],
+    "companyInfo": [
+      {
+        "companyName": "Bank of America",
+        "cdp": "BOA123"
+      }],
+    "birthDate": "1985-10-30",
+    "driverLicense":{
+      "licenseNumber": "ABPT00901",
+      "expDate": "2018-01-20",
+      "issuedState": "WA",
+      "issuedCountry": "US"
+    },
+    "spouseName": {
+      "honorificPrefix": "Mrs.",
+      "firstName": "Jill",
+      "lastName": "Smith"
+    },
+    "contactOption": "email",
+    "shareInfo": false
+  }
+]

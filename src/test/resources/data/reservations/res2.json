@@ -1,0 +1,131 @@
+{
+  "OTA_VehModifyRQ": {
+    "pos": {
+      "source": [
+        {
+          "airlineVendorID": "UA",
+          "pseudoCityCode": "8BZ9",
+          "requestorID": {
+            "id": "46632235",
+            "type": "5"
+          }
+        }
+      ]
+    },
+    "vehModifyRQCore": {
+      "customer": {
+        "primary": {
+          "address": [
+            {
+              "postalCode": "bfohHtbJoX0=",
+              "cityName": "bfohHtbJoX0=",
+              "stateProv": {
+                "stateCode": "bfohHtbJoX0="
+              },
+              "type": "1",
+              "addressLine": [
+                "bfohHtbJoX0=",
+                "bfohHtbJoX0="
+              ]
+            },
+            {
+              "postalCode": "bfohHtbJoX0=",
+              "stateProv": {
+                "stateCode": "bfohHtbJoX0="
+              },
+              "cityName": "bfohHtbJoX0=",
+              "type": "2",
+              "addressLine": [
+                "bfohHtbJoX0=",
+                "bfohHtbJoX0="
+              ]
+            }
+          ],
+          "custLoyalty": [
+            {
+              "travelSector": "1",
+              "programID": "UA",
+              "membershipID": "TE648071"
+            }
+          ],
+          "personName": [
+            {
+              "givenName": [
+                "jcLluIoc/kY=",
+                "drS9lEfa8js="
+              ],
+              "surname": "VjsvpU0saro="
+            }
+          ]
+        }
+      },
+      "rateDistance": [
+        {
+          "unlimited": 0,
+          "vehiclePeriodUnitName": "DY"
+        }
+      ],
+      "rateQualifier": {
+        "corpDiscountNmbr": 249603,
+        "promotionCode": "",
+        "rateQualifier": "USGPD",
+        "vendorRateID": "USGPD",
+        "travelPurpose": "B"
+      },
+      "totalCharge": {
+        "estimatedTotalAmount": 142.44,
+        "currencyCode": "USD"
+      },
+      "status": "0",
+      "uniqueID": [
+        {
+          "id": "H42819532D2",
+          "instance": 3,
+          "type": 24
+        }
+      ],
+      "vehPref": {
+        "code": "FCAR",
+        "codeContext": "SIPP"
+      },
+      "vehRentalCore": {
+        "pickUpDateTime": "2017-10-01T14:30:00",
+        "pickUpLocation": [
+          {
+            "locationCode": "DTW"
+          }
+        ],
+        "returnDateTime": "2017-10-04T10:30:00",
+        "returnLocation": {
+          "locationCode": "DTW"
+        }
+      },
+      "vehicleCharges": {
+        "vehicleCharge": [
+          {
+            "currencyCode": "USD"
+          }
+        ]
+      },
+      "vendorPref": {
+        "code": "ZE",
+        "codeContext": "2"
+      }
+    },
+    "vehModifyRQInfo": {
+      "arrivalDetails": {
+        "number": "0831",
+        "transportationCode": "14"
+      },
+      "remark": [
+        {
+          "text": [
+            {
+              "value": ".DACXXAA 181502 AAL6756F7            00001"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

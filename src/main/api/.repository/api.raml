@@ -1,0 +1,67 @@
+#%RAML 1.0
+title: template for hertz experience API
+version: 1.0
+#baseUri: https://template-hertz-exp-api.cloudhub.io/api/{version}
+baseUri: https://mocksvc.mulesoft.com/mocks/b540d5ab-9342-48f1-831f-663cf61b7cb9{envPrefix}-template-hertz-exp-api-led.cloudhub.io/api/
+documentation: 
+  - title: Hertz  Experiance API template 
+    content: | 
+        welcome to the Hertz API Led Approach template documentation
+  - title: Getting Started
+    content: !include docs/getting_started.md
+mediaType: application/json
+protocols: [HTTPS]
+
+# All mule applications will have clien-id & client-secret policy enforced
+traits: 
+  client-id-required:
+      headers:
+        client_id:
+          type: string
+          required: true
+        client_secret:
+          type: string
+          required: true
+
+# below is an example for creating types.
+types:
+  Patch:
+    type: !include api/types/customer/patch.schema
+    description: This is the schema describing HTTP PATCH operation
+  error:
+    type: !include api/types/error/error.schema
+    description: Schema describing error message
+  customer:
+    type: !include api/types/customer/customer.schema
+    description: This is schema describing customer
+  creditCard:
+    type: !include api/types/creditcard/creditCard.schema
+    description: This is the schema describing credit card
+
+# below is an example for creating resourcetypes.
+resourceTypes:
+  collection:
+      usage: This resource type should be used for any collection of items
+      description: The collection of <<resourcePathName>>
+      get:
+        description: Get all <<resourcePathName>>, optionally filtered
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName>>
+  collection-item:
+      description: Entity representing a <<resourcePathName|!singularize>>
+      get:
+        description: Get the <<resourcePathName|!singularize>> with matching id
+        responses:
+          200:
+            body:
+              application/json:
+          404:
+            body:
+              schema: error
+
+/customer: !include api/customer.raml
+/creditCard: !include api/creditCard.raml
+    
