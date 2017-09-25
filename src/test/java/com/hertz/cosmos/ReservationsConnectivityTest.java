@@ -24,8 +24,8 @@ import org.springframework.test.context.junit4.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "classpath:src/main/app/beans-config.xml", 
-        "classpath:src/test/resources/test-beans.xml"})
+        "classpath:beans-config.xml", 
+        "classpath:test-beans.xml"})
 public class ReservationsConnectivityTest {
 	
 	Logger logger = LogManager.getLogger(this.getClass());
