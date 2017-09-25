@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw" xmlns:secure-property-placeholder="http://www.mulesoft.org/schema/mule/secure-property-placeholder" xmlns:context="http://www.springframework.org/schema/context" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit"
+<mule xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw" 
+xmlns:secure-property-placeholder="http://www.mulesoft.org/schema/mule/secure-property-placeholder" xmlns:context="http://www.springframework.org/schema/context" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 

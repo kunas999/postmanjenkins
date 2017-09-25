@@ -1,0 +1,157 @@
+{
+  "OTA_VehResRQ": {
+    "pos": {
+      "source": [
+        {
+          "airlineVendorID": "UAL",
+          "pseudoCityCode": "",
+          "requestorID": {
+            "companyName": {
+              "code": "IRAC",
+              "codeContext": "4"
+            },
+            "id": "00317170",
+            "type": "5"
+          }
+        }
+      ]
+    },
+    "vehResRQCore": {
+      "customer": {
+        "primary": {
+          "address": [
+            {
+              "postalCode": "bfohHtbJoX0=",
+              "cityName": "bfohHtbJoX0=",
+              "stateProv": {
+                "stateCode": "bfohHtbJoX0="
+              },
+              "type": "1",
+              "addressLine": [
+                "bfohHtbJoX0=",
+                "bfohHtbJoX0="
+              ]
+            },
+            {
+              "postalCode": "bfohHtbJoX0=",
+              "stateProv": {
+                "stateCode": "bfohHtbJoX0="
+              },
+              "cityName": "bfohHtbJoX0=",
+              "type": "2",
+              "addressLine": [
+                "bfohHtbJoX0=",
+                "bfohHtbJoX0="
+              ]
+            }
+          ],
+          "birthDate": "skNSzwB7Efk=",
+          "custLoyalty": [
+            {
+              "travelSector": "2",
+              "programID": "ZE",
+              "membershipID": 59114209
+            },
+            {
+              "travelSector": "1",
+              "programID": "ZE",
+              "membershipID": "1"
+            }
+          ],
+          "email": [
+            {
+              "value": "Js+EGP5hmWXWtl1KvudGFYpUr3QLQ/4o"
+            }
+          ],
+          "personName": [
+            {
+              "givenName": [
+                "G9ihNOshsko=",
+                "bfohHtbJoX0="
+              ],
+              "surname": "Js+EGP5hmWXhFM8r2Wq0yg=="
+            }
+          ]
+        }
+      },
+      "rateDistance": [
+        {
+          "unlimited": 0,
+          "vehiclePeriodUnitName": "DY"
+        }
+      ],
+      "rateQualifier": {
+        "corpDiscountNmbr": 1392782,
+        "promotionCode": "",
+        "rateQualifier": "RCUD3",
+        "vendorRateID": "RCUD3",
+        "travelPurpose": "L"
+      },
+      "totalCharge": {
+        "estimatedTotalAmount": 220.51,
+        "currencyCode": "USD"
+      },
+      "status": "0",
+      "uniqueID": [
+        {
+          "id": "H42811276E1",
+          "instance": 1,
+          "type": 24
+        }
+      ],
+      "vehPref": {
+        "code": "FCAR",
+        "codeContext": "SIPP"
+      },
+      "vehRentalCore": {
+        "pickUpDateTime": "2017-09-20T14:30:00",
+        "pickUpLocation": [
+          {
+            "locationCode": "FLLT11"
+          }
+        ],
+        "returnDateTime": "2017-09-23T10:00:00",
+        "returnLocation": {
+          "locationCode": "FLLT11"
+        }
+      },
+      "vehicleCharges": {
+        "vehicleCharge": [
+          {
+            "currencyCode": "USD"
+          }
+        ]
+      },
+      "vendorPref": {
+        "code": "ZE",
+        "codeContext": "2"
+      }
+    },
+    "vehResRQInfo": {
+      "arrivalDetails": {
+        "number": "1826",
+        "transportationCode": "14"
+      },
+      "remark": [
+        {
+          "text": [
+            {
+              "value": ".DACXX30 181425 300LMZ1AEYR0H34070I2400001"
+            }
+          ]
+        }
+      ],
+      "rentalPaymentPref": [
+        {
+          "paymentCard": {
+            "cardNumber": {
+              "plainText": "O5bpDsUkOBXLzRXye/qJuQ=="
+            },
+            "expiryDate": "22-08"
+          },
+          "paymentType": 1
+        }
+      ]
+    }
+  }
+}

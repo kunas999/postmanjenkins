@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:secure-property-placeholder="http://www.mulesoft.org/schema/mule/secure-property-placeholder"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.mulesoft.org/schema/mule/secure-property-placeholder http://www.mulesoft.org/schema/mule/secure-property-placeholder/current/mule-secure-property-placeholder.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="Secure_Property_Placeholder-template" class="org.mule.modules.security.placeholder.SecurePropertyPlaceholderModule" >
+	    <property name="encryptionAlgorithm" value="Blowfish" />
+	    <property name="encryptionMode" value="CBC" />
+	    <property name="key" value="${property.key}" />
+	    <property name="location" value="classpath:env/template-hertz-api-led-dev.properties" />
+	    <property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+    
+</beans>

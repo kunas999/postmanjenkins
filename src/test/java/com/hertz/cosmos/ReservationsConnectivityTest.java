@@ -1,5 +1,6 @@
 package com.hertz.cosmos;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,71 +10,83 @@ import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
 import org.mule.util.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
-import com.hertz.cosmos.pojo.Reservation;
 import com.hertz.cosmos.utils.CosmosUtils;
 import com.microsoft.azure.documentdb.Document;
 import com.microsoft.azure.documentdb.DocumentClientException;
 
+import org.springframework.test.context.junit4.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+        "classpath:src/main/app/beans-config.xml", 
+        "classpath:src/test/resources/test-beans.xml"})
 public class ReservationsConnectivityTest {
 	
 	Logger logger = LogManager.getLogger(this.getClass());
 	
-	CosmosUtils cosmosUtils = null;
+	@Autowired
+	CosmosUtils cosmosReservationUtil = null;
 			
 	@Before
-	public void startUp() throws DocumentClientException {
-		
-		cosmosUtils = new CosmosUtils(
-				"https://mulesoftpoc1.documents.azure.com",
-				"sq6J5wTeFURtx5PBy2f5OGuwXaJ0hzYVSr3G8n4PSeU1UvDiU78ntsyMYeNKHbOHlnFSvABZo1p23AQ0vmgXyQ==",
-				new Reservation("DB1", "RESERVATION_DEV"));		
+	public void startUp() throws DocumentClientException, IOException {		
 		
 		try {
-			cosmosUtils.deleteCollection();
+			cosmosReservationUtil.deleteCollection();
 		}
 		catch (DocumentClientException de) {
 			//swallow exception in case the collection is not there.
 		}
 		
-		cosmosUtils.createCollection();
+		try {
+			cosmosReservationUtil.createCollection();
+		}
+		catch (DocumentClientException de) {
+			//swallow exception in case the collection is not there.
+		}			
 		
 	}
 	
 	@After
-	public void shutdown() throws DocumentClientException {
+	public void shutdown() throws DocumentClientException, Exception {
 		
-		cosmosUtils.deleteCollection();
-		
+		cosmosReservationUtil.deleteCollection();
+				
 	}
 	
 	@Test
-	public void shouldSaveRes() throws Exception {
+	public void shouldSave() throws Exception {
 						
-		cosmosUtils.save(IOUtils.getResourceAsString("data/reservations/res1.json", ReservationsConnectivityTest.class));
+		cosmosReservationUtil.save(IOUtils.getResourceAsString("data/reservations/res1.json", ReservationsConnectivityTest.class));
 		
-		cosmosUtils.save(IOUtils.getResourceAsString("data/reservations/res2.json", ReservationsConnectivityTest.class));
+		cosmosReservationUtil.save(IOUtils.getResourceAsString("data/reservations/res2.json", ReservationsConnectivityTest.class));			
 		
-		List<Document> results = cosmosUtils.findAll();
+		List<Document> results = cosmosReservationUtil.findAll();
 		
-		assert 2 == results.size();
+		assertEquals(2, results.size());
 		
-        logger.info("results: {}", results.toString());
+        logger.info("results: {}", results.size());
+        
 	}
 	
 	@Test
 	public void shouldFind() throws Exception {
 						
-		cosmosUtils.save(IOUtils.getResourceAsString("data/reservations/res1.json", ReservationsConnectivityTest.class));
+		cosmosReservationUtil.save(IOUtils.getResourceAsString("data/reservations/res3.json", ReservationsConnectivityTest.class));						
 		
 		Map<String,String> params = new HashMap<String,String>();
-		params.put("OTA_VehResRQ.pos.source[0].airlineVendorID", "DL");
+		params.put("OTA_VehResRQ.pos.source[0].airlineVendorID", "UAL");
 		
-		List<Document> results = cosmosUtils.findBy(params);
+		List<Document> results = cosmosReservationUtil.findBy(params);
 				
-		assert 1 == results.size();
+		assertEquals(1, results.size());
 		
-        logger.info("results: {}", results.toString());
+        logger.info("results: {}", results.size());
+        
 	}	
 }

@@ -9,21 +9,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
     
-    <spring:beans>
-    	<spring:bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosReservationUtil">
-    		 <spring:constructor-arg name="endpoint" value="${cosmos.endpoint}" />
-    		 <spring:constructor-arg name="key" value="${cosmos.key}" />
-    		 <spring:constructor-arg name="pojo" ref = "reservationPojo"/>	
-    	</spring:bean>
-    	<spring:bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo">
-    		<spring:constructor-arg name="databaseName" value="${cosmos.database}" />
-    		<spring:constructor-arg name="collectionId" value="${cosmos.reservation.collection}" />
-    	</spring:bean>
-    </spring:beans>
     <flow name="cosmos-dbFlow">
         <message-properties-transformer doc:name="Message Properties"/>
     </flow>
-
 
     <flow name="cosmos-findAll">			
 		<invoke method="findAll" object-ref="cosmosReservationUtil" doc:name="Invoke"/>		
