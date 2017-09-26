@@ -9,6 +9,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
     
+    <spring:import resource="classpath:beans-config.xml" />
+    
     <flow name="cosmos-dbFlow">
         <message-properties-transformer doc:name="Message Properties"/>
     </flow>

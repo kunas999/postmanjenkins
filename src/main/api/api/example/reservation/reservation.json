@@ -1,0 +1,320 @@
+[
+    {
+        "timeToLive": null,
+        "selfLink": "dbs/hI0-AA==/colls/hI0-AO6SKQA=/docs/hI0-AO6SKQACAAAAAAAAAA==/",
+        "resourceId": "hI0-AO6SKQACAAAAAAAAAA==",
+        "timestamp": 1506353926,
+        "etag": "\"3400be75-0000-0000-0000-59c923060000\"",
+        "id": "51c88940-d3c3-4670-9e11-8a243365068c",
+        "hashMap": {
+            "_attachments": "attachments/",
+            "_rid": "hI0-AO6SKQACAAAAAAAAAA==",
+            "OTA_VehResRQ": {
+                "vehResRQCore": {
+                    "totalCharge": {
+                        "estimatedTotalAmount": 86.92,
+                        "currencyCode": "USD"
+                    },
+                    "rateDistance": [
+                        {
+                            "unlimited": 0,
+                            "vehiclePeriodUnitName": "DY"
+                        }
+                    ],
+                    "vehPref": {
+                        "code": "ICAR",
+                        "codeContext": "SIPP"
+                    },
+                    "vehicleCharges": {
+                        "vehicleCharge": [
+                            {
+                                "currencyCode": "USD"
+                            }
+                        ]
+                    },
+                    "rateQualifier": {
+                        "corpDiscountNmbr": 50806,
+                        "promotionCode": "",
+                        "rateQualifier": "CRL",
+                        "vendorRateID": "CRL",
+                        "travelPurpose": "B"
+                    },
+                    "vehRentalCore": {
+                        "returnDateTime": "2017-10-20T17:40:00",
+                        "returnLocation": {
+                            "locationCode": "JAX"
+                        },
+                        "pickUpLocation": [
+                            {
+                                "locationCode": "JAX"
+                            }
+                        ],
+                        "pickUpDateTime": "2017-10-18T17:40:00"
+                    },
+                    "vendorPref": {
+                        "code": "ZE",
+                        "codeContext": "2"
+                    },
+                    "uniqueID": [
+                        {
+                            "instance": 2,
+                            "id": "H4280164164",
+                            "type": 24
+                        }
+                    ],
+                    "customer": {
+                        "primary": {
+                            "personName": [
+                                {
+                                    "surname": "+/fUAKhxb7A=",
+                                    "givenName": [
+                                        "SN1osVoSlV4=",
+                                        "bfohHtbJoX0="
+                                    ]
+                                }
+                            ],
+                            "custLoyalty": [
+                                {
+                                    "membershipID": 62644743,
+                                    "travelSector": "2",
+                                    "programID": "ZE"
+                                },
+                                {
+                                    "membershipID": "1",
+                                    "travelSector": "1",
+                                    "programID": "ZE"
+                                }
+                            ],
+                            "address": [
+                                {
+                                    "stateProv": {
+                                        "stateCode": "bfohHtbJoX0="
+                                    },
+                                    "cityName": "bfohHtbJoX0=",
+                                    "postalCode": "bfohHtbJoX0=",
+                                    "type": "1",
+                                    "addressLine": [
+                                        "bfohHtbJoX0=",
+                                        "bfohHtbJoX0="
+                                    ]
+                                },
+                                {
+                                    "stateProv": {
+                                        "stateCode": "bfohHtbJoX0="
+                                    },
+                                    "cityName": "bfohHtbJoX0=",
+                                    "postalCode": "bfohHtbJoX0=",
+                                    "type": "2",
+                                    "addressLine": [
+                                        "bfohHtbJoX0=",
+                                        "bfohHtbJoX0="
+                                    ]
+                                }
+                            ],
+                            "birthDate": "SW49cLb0ouM=",
+                            "email": [
+                                {
+                                    "value": "nu16JCKFolYBDAXvxZZ1I31XRMqhxoE2"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "0"
+                },
+                "vehResRQInfo": {
+                    "rentalPaymentPref": [
+                        {
+                            "paymentCard": {
+                                "expiryDate": "18-01",
+                                "cardNumber": {
+                                    "plainText": "++wTB7AEqKlYp8+pYh0TlF1M2ryHeK1n"
+                                }
+                            },
+                            "paymentType": 1
+                        }
+                    ],
+                    "arrivalDetails": {
+                        "number": "4040",
+                        "transportationCode": "14"
+                    },
+                    "remark": [
+                        {
+                            "text": [
+                                {
+                                    "value": ".DACXXAA 181524 AAL1D2D1A            00001"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "pos": {
+                    "source": [
+                        {
+                            "pseudoCityCode": "X0CC",
+                            "requestorID": {
+                                "id": "10663575",
+                                "type": "5"
+                            },
+                            "airlineVendorID": "DL"
+                        }
+                    ]
+                }
+            },
+            "id": "51c88940-d3c3-4670-9e11-8a243365068c",
+            "_self": "dbs/hI0-AA==/colls/hI0-AO6SKQA=/docs/hI0-AO6SKQACAAAAAAAAAA==/",
+            "OTA_VehModifyRQ": {
+                "pos": {
+                    "source": [
+                        {
+                            "pseudoCityCode": "X0CC",
+                            "requestorID": {
+                                "id": "10663575",
+                                "type": "5"
+                            },
+                            "airlineVendorID": "DL"
+                        }
+                    ]
+                },
+                "vehModifyRQCore": {
+                    "totalCharge": {
+                        "estimatedTotalAmount": 86.92,
+                        "currencyCode": "USD"
+                    },
+                    "rateDistance": [
+                        {
+                            "unlimited": 0,
+                            "vehiclePeriodUnitName": "DY"
+                        }
+                    ],
+                    "vehPref": {
+                        "code": "ICAR",
+                        "codeContext": "SIPP"
+                    },
+                    "vehicleCharges": {
+                        "vehicleCharge": [
+                            {
+                                "currencyCode": "USD"
+                            }
+                        ]
+                    },
+                    "rateQualifier": {
+                        "corpDiscountNmbr": 50806,
+                        "promotionCode": "",
+                        "rateQualifier": "CRL",
+                        "vendorRateID": "CRL",
+                        "travelPurpose": "B"
+                    },
+                    "vehRentalCore": {
+                        "returnDateTime": "2017-10-20T17:40:00",
+                        "returnLocation": {
+                            "locationCode": "JAX"
+                        },
+                        "pickUpLocation": [
+                            {
+                                "locationCode": "JAX"
+                            }
+                        ],
+                        "pickUpDateTime": "2017-10-18T17:40:00"
+                    },
+                    "vendorPref": {
+                        "code": "ZE",
+                        "codeContext": "2"
+                    },
+                    "uniqueID": [
+                        {
+                            "instance": 2,
+                            "id": "H4280164164",
+                            "type": 24
+                        }
+                    ],
+                    "customer": {
+                        "primary": {
+                            "personName": [
+                                {
+                                    "surname": "+/fUAKhxb7A=",
+                                    "givenName": [
+                                        "SN1osVoSlV4=",
+                                        "bfohHtbJoX0="
+                                    ]
+                                }
+                            ],
+                            "custLoyalty": [
+                                {
+                                    "membershipID": 62644743,
+                                    "travelSector": "2",
+                                    "programID": "ZE"
+                                },
+                                {
+                                    "membershipID": "1",
+                                    "travelSector": "1",
+                                    "programID": "ZE"
+                                }
+                            ],
+                            "address": [
+                                {
+                                    "stateProv": {
+                                        "stateCode": "bfohHtbJoX0="
+                                    },
+                                    "cityName": "bfohHtbJoX0=",
+                                    "postalCode": "bfohHtbJoX0=",
+                                    "type": "1",
+                                    "addressLine": [
+                                        "bfohHtbJoX0=",
+                                        "bfohHtbJoX0="
+                                    ]
+                                },
+                                {
+                                    "stateProv": {
+                                        "stateCode": "bfohHtbJoX0="
+                                    },
+                                    "cityName": "bfohHtbJoX0=",
+                                    "postalCode": "bfohHtbJoX0=",
+                                    "type": "2",
+                                    "addressLine": [
+                                        "bfohHtbJoX0=",
+                                        "bfohHtbJoX0="
+                                    ]
+                                }
+                            ],
+                            "birthDate": "SW49cLb0ouM=",
+                            "email": [
+                                {
+                                    "value": "nu16JCKFolYBDAXvxZZ1I31XRMqhxoE2"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "0"
+                },
+                "vehModifyRQInfo": {
+                    "rentalPaymentPref": [
+                        {
+                            "paymentCard": {
+                                "expiryDate": "18-01",
+                                "cardNumber": {
+                                    "plainText": "++wTB7AEqKlYp8+pYh0TlF1M2ryHeK1n"
+                                }
+                            },
+                            "paymentType": 1
+                        }
+                    ],
+                    "arrivalDetails": {
+                        "number": "4040",
+                        "transportationCode": "14"
+                    },
+                    "remark": [
+                        {
+                            "text": [
+                                {
+                                    "value": ".DACXXAA 181524 AAL1D2D1A            00001"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "_etag": "\"3400be75-0000-0000-0000-59c923060000\"",
+            "_ts": 1506353926
+        }
+    }
+]

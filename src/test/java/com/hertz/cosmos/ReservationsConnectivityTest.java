@@ -88,5 +88,6 @@ public class ReservationsConnectivityTest {
 		
         logger.info("results: {}", results.size());
         
-	}	
+	}
+	
 }
