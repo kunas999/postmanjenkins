@@ -9,7 +9,7 @@
              description: The reservation ID
              example: H1232318188
              required: false
-           firstName:
+           airlineCode:
              displayName: Airline Code
              type: string
              description: The airline code used for the reservation
@@ -19,57 +19,14 @@
              displayName: Pickup Location
              type: string
              description: The pickup location for the reservation
-             example: LAX           
+             example: LAX
+             required: false          
       responses:
           200:
             body:    
-              schema: reservation
+              #schema: reservation
               example: !include example/reservation/reservations.json
           404: 
             description: No reservation found in the source system for the given search criteria
             body:
               schema: error
-    
-    post:
-      is: [client-id-required]
-      description: Add or create a new customer
-      body:
-        schema: customer
-        example: !include example/customer/newCustomer.json
-      responses:
-        201:
-          description: A new customer is created. Use the header location url to get the new customer object.
-          headers:
-            location:
-              description: "Relative URL of the created customer."
-              type: string
-              required: true
-              example: /customer/123456
-          body: null
-    /{id}:
-      get:
-        is: [client-id-required]
-        description: Get customer using customer Id
-        responses:
-          200:
-            body:
-              schema: customer
-              example: !include example/customer/customers.json
-          404: 
-            description: No customer found in the source system for the given Id
-            body:
-              schema: error
-      put:
-        is: [client-id-required]
-        description: Update an existing credit card object.
-        body:
-          application/json:
-            schema: creditCard
-            example: !include example/creditCard/creditCard.json
-        responses:
-          200:
-            description: Customer updated
-            body:
-              application/json:
-                schema: customer
-                example: !include example/customer/customers.json

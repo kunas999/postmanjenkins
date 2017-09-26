@@ -37,6 +37,9 @@ types:
   creditCard:
     type: !include api/types/creditcard/creditCard.schema
     description: This is the schema describing credit card
+  reservation:
+    type: !include api/types/reservation/reservation.schema
+    description: This is the schema describing reservation  
 
 # below is an example for creating resourcetypes.
 resourceTypes:
@@ -64,4 +67,5 @@ resourceTypes:
 
 /customer: !include api/customer.raml
 /creditCard: !include api/creditCard.raml
+/reservation: !include api/reservation.raml
     

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
 	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
-    
-    <spring:import resource="classpath:beans-config.xml" />
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <spring:beans>
+        <spring:import resource="classpath:beans-config.xml"/>
+    </spring:beans>
     
     <flow name="cosmos-dbFlow">
         <message-properties-transformer doc:name="Message Properties"/>
@@ -23,7 +25,7 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
     
     <flow name="cosmos-findBy">	
 		<!-- <invoke method="findAll" object-ref="cosmosReservation" /> -->
-		<scripting:transformer doc:name="Script" name="params">
+		<!--  <scripting:transformer doc:name="Script" name="params">
 			<scripting:script engine="Groovy">
 	           	<![CDATA[
 	           		import groovy.json.JsonBuilder 
@@ -32,7 +34,18 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 	           		return map
 				]]>
 			</scripting:script>
-		</scripting:transformer>  		
+		</scripting:transformer>-->
+		
+        <dw:transform-message doc:name="Transform Message">
+            <dw:input-payload doc:sample="data\reservations\res1.json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	"OTA_VehResRQ.vehResRQCore.uniqueID[0].id" : inboundProperties."http.query.params".reservationId	
+}]]></dw:set-payload>
+        </dw:transform-message>
+				
 		<invoke method="findBy" object-ref="cosmosReservationUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>		
         <logger level="INFO"  doc:name="Logger" message="#[message.payloadAs(java.lang.String)]"/>
         <!-- filter result based on role -->           
