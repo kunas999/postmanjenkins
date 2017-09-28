@@ -2,7 +2,7 @@
 title: template for hertz experience API
 version: 1.0
 #baseUri: https://template-hertz-exp-api.cloudhub.io/api/{version}
-baseUri: https://{envPrefix}-sys-api-cosmos-db.esb.hertz.com/api/
+baseUri: https://{envPrefix}-sys-api-cosmos-db.esb-{version}.hertz.com/api/
 documentation: 
   - title: Hertz  Experiance API template 
     content: | 
@@ -24,19 +24,13 @@ traits:
           required: true
 
 # below is an example for creating types.
-types:
-  Patch:
-    type: !include api/types/customer/patch.schema
-    description: This is the schema describing HTTP PATCH operation
+types:  
   error:
     type: !include api/types/error/error.schema
     description: Schema describing error message
-  customer:
-    type: !include api/types/customer/customer.schema
-    description: This is schema describing customer
-  creditCard:
-    type: !include api/types/creditcard/creditCard.schema
-    description: This is the schema describing credit card
+  reservation:
+    type: !include api/types/reservation/reservation.schema
+    description: This is the schema describing reservation  
 
 # below is an example for creating resourcetypes.
 resourceTypes:
@@ -62,6 +56,5 @@ resourceTypes:
             body:
               schema: error
 
-/customer: !include api/customer.raml
-/creditCard: !include api/creditCard.raml
+/reservation: !include api/reservation.raml
     

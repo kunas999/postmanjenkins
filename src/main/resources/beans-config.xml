@@ -16,7 +16,7 @@
  	
  	<bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo" depends-on="Secure_Property_Placeholder-template">
  		<constructor-arg name="databaseName" value="${cosmos.database}" />
- 		<constructor-arg name="collectionId" value="${cosmos.reservation.collection}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.reservation.collection.name}" />
  	</bean>
     
 </beans>

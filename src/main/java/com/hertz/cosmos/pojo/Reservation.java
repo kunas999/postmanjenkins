@@ -8,7 +8,7 @@ public class Reservation extends AbstractCosmosPojo {
 
 	@Override
 	public String getAllQuery() {			
-		return "SELECT * FROM " + getCollectionId();
+		return "SELECT TOP 50 * FROM " + getCollectionId();
 	}
 	
 }
