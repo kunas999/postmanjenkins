@@ -52,8 +52,38 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
-	</build>
+		<plugin>
+                <groupId>com.mulesoft.munit.tools</groupId>
+                <artifactId>munit-maven-plugin</artifactId>
+                <version>${munit.version}</version>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <coverage>
+                        <runCoverage>true</runCoverage>
+                        <formats>
+                            <format>html</format>
+                        </formats>
+                    </coverage>
+                </configuration>
+            </plugin>
+        </plugins>
+	<testResources>
+            <testResource>
+                <directory>src/test/munit</directory>
+            </testResource>
+        <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
 
 	<!-- Mule Dependencies -->
 	<dependencies>
@@ -210,6 +240,28 @@
     <version>2.8.1</version>
 </dependency> -->       
         
-        </dependencies>
+        <dependency>
+            <groupId>com.mulesoft.munit</groupId>
+            <artifactId>mule-munit-support</artifactId>
+            <version>${mule.munit.support.version}</version>
+            <scope>test</scope>
+        </dependency>
+    <dependency>
+            <groupId>com.mulesoft.munit</groupId>
+            <artifactId>munit-runner</artifactId>
+            <version>${munit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-http</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
+<properties>
+        <munit.version>1.3.4</munit.version>
+    <mule.munit.support.version>3.8.4</mule.munit.support.version>
+    </properties>
 </project>

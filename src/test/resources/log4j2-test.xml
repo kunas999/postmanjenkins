@@ -27,7 +27,7 @@
         
         <!--AsyncLogger name="httpclient.wire" level="ALL" /-->
 
-        <AsyncRoot level="INFO">
+        <AsyncRoot level="DEBUG">
             <AppenderRef ref="Console"/>
         </AsyncRoot>
     </Loggers>

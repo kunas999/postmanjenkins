@@ -9,9 +9,9 @@
    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
  	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosReservationUtil" depends-on="reservationPojo" scope="prototype">
- 		 <constructor-arg name="endpoint" value="${cosmos.endpoint}" />
- 		 <constructor-arg name="key" value="${cosmos.key}" />
- 		 <constructor-arg name="pojo" ref = "reservationPojo"/>	
+ 		<property name="endpoint" value="${cosmos.endpoint}" />
+ 		<property name="key" value="${cosmos.key}" />
+ 		<property name="pojo" ref = "reservationPojo" /> 		 
  	</bean>
  	
  	<bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo" depends-on="Secure_Property_Placeholder-template">

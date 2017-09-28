@@ -24,19 +24,10 @@ traits:
           required: true
 
 # below is an example for creating types.
-types:
-  Patch:
-    type: !include api/types/customer/patch.schema
-    description: This is the schema describing HTTP PATCH operation
+types:  
   error:
     type: !include api/types/error/error.schema
     description: Schema describing error message
-  customer:
-    type: !include api/types/customer/customer.schema
-    description: This is schema describing customer
-  creditCard:
-    type: !include api/types/creditcard/creditCard.schema
-    description: This is the schema describing credit card
   reservation:
     type: !include api/types/reservation/reservation.schema
     description: This is the schema describing reservation  
@@ -65,7 +56,5 @@ resourceTypes:
             body:
               schema: error
 
-/customer: !include api/customer.raml
-/creditCard: !include api/creditCard.raml
 /reservation: !include api/reservation.raml
     

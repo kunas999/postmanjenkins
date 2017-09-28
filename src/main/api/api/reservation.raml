@@ -2,7 +2,7 @@
     get:
       is: [client-id-required]
       description: Search reservation using reservation ID, airline, pickup location, return location. At least one search option should be provided.
-      queryParameters:
+      queryParameters:           
            reservationId:
              displayName: Reservation ID
              type: string
@@ -30,3 +30,32 @@
             description: No reservation found in the source system for the given search criteria
             body:
               schema: error
+    /{id}:
+      get:
+        is: [client-id-required]
+        description: Get reservation using the system Id when the reservation was pesisted
+        responses:
+          200:
+            body:
+              #schema: reservation
+              example: !include example/reservation/reservation.json
+          404: 
+            description: No reservation was found in the system for the given Id
+            body:
+              schema: error              
+    post:
+      is: [client-id-required]
+      description: Persists a reservation copy
+      body:
+        #schema: reservation
+        example: !include example/reservation/reservation.json
+      responses:
+        201:
+          description: A reservation copy is persisted. Use the header location url to get the persisted reservation object.
+          headers:
+            location:
+              description: "Relative URL of the persisted reservation."
+              type: string
+              required: true
+              example: /reservation/123456
+          body: null              
