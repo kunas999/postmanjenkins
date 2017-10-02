@@ -18,6 +18,11 @@
   <classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/code/findbugs/jsr305/2.0.1/jsr305-2.0.1.jar">
+    <attributes>
+      <attribute value="provided" name="org.mule.tooling.scope"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.12/junit-4.12.jar">
     <attributes>
       <attribute value="test" name="org.mule.tooling.scope"/>
@@ -61,10 +66,6 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/com/mulesoft/security/security-api/1.6.2/security-api-1.6.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/yaml/snakeyaml/1.17/snakeyaml-1.17.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/boot/spring-boot/1.5.4.RELEASE/spring-boot-1.5.4.RELEASE.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/boot/spring-boot-autoconfigure/1.5.4.RELEASE/spring-boot-autoconfigure-1.5.4.RELEASE.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/boot/spring-boot-starter/1.5.4.RELEASE/spring-boot-starter-1.5.4.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/data/spring-data-commons/1.13.4.RELEASE/spring-data-commons-1.13.4.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/microsoft/azure/spring-data-documentdb/0.1.2/spring-data-documentdb-0.1.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-test/4.1.9.RELEASE/spring-test-4.1.9.RELEASE.jar">

@@ -32,7 +32,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <munit:after-test name="reservation-test-suiteAfter_Test" description="After tests actions">
     	<invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>
     </munit:after-test>   
-    <munit:test name="reservation-test-suite-cosmos-findById-Test1" description="Test">                   	    				 
+    <munit:test name="reservation-test-suite-cosmos-findById-Test1" description="Test" >                   	    				 
         <flow-ref name="cosmos-reservation-findById-flow" doc:name="Flow-ref to cosmos-findBy"/>        
         <logger message="size: #[message.payload.size()]" level="INFO" doc:name="Logger"/>
         <munit:assert-true condition="#[payload.size() > 0]" doc:name="Assert True"/>

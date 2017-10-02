@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         <spring:import resource="classpath:cosmos-db.xml"/>
         <spring:import resource="classpath:common-config.xml"/>
         <spring:import resource="classpath:beans-config.xml"/> 
-        <spring:import resource="classpath:api.xml"/>              
+        <!-- <spring:import resource="classpath:api.xml"/> -->              
     </spring:beans>
     <http:request-config name="Test_HTTP_Request_Configuration" host="0.0.0.0" port="${https.private.port}" basePath="/api" doc:name="HTTP Request Configuration"/>    
     <munit:before-test name="reservation-test-suiteBefore_Test" description="Before tests actions">    	      
@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <munit:after-test name="reservation-test-suiteAfter_Test" description="After tests actions">
     	<invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>
     </munit:after-test>   
-    <munit:test name="reservation-test-suite-cosmos-findByTest2" description="Test">
+   <!--  <munit:test name="reservation-test-suite-cosmos-findByTest2" description="Test" ignore="true">
         <http:request path="/reservation" config-ref="Test_HTTP_Request_Configuration" method="GET" doc:name="HTTP">
         	<http:request-builder>
                 <http:query-param paramName="reservationId" value="H4280164164"/>
@@ -31,5 +31,5 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         <logger message="#[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Logger"/>
         <logger message="#[message.payload.size()]" level="INFO" doc:name="Logger"/>
         <munit:assert-true condition="#[payload.size() > 0]" doc:name="Assert True"/>
-    </munit:test>   
+    </munit:test>  -->  
 </mule>

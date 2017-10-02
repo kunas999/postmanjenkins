@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <munit:after-test name="reservation-test-suiteAfter_Test" description="After tests actions">
     	<invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>
     </munit:after-test>   
-    <munit:test name="reservation-test-suite-cosmos-findByTest1" description="Test">
+    <munit:test name="reservation-test-suite-cosmos-findByTest1" description="Test" ignore="true">
         <munit:set payload="#[]" doc:name="Set Message">
    			<munit:inbound-properties>
                 <munit:inbound-property key="http.query.params" value="#[['reservationId':'H4280164164', 'airlineCode':'DL','pickupLocation':'JAX']]"/>

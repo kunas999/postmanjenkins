@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <munit:after-test name="reservation-test-save-suiteAfter_Test" description="After tests actions">
     	<invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>
     </munit:after-test>   
-    <munit:test name="reservation-test-suite-cosmos-save-Test1" description="Test">
+    <munit:test name="reservation-test-suite-cosmos-save-Test1" description="Test" ignore="true">
         <munit:set payload="#[getResource('src/test/resources/data/reservations/res3.json').asString()]" mimeType="application/json" doc:name="Set Message test" />        
         <flow-ref name="cosmos-reservation-save-flow" doc:name="Flow-ref to cosmos-save"/>
         <logger message="#[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Logger"/>

@@ -258,6 +258,14 @@
             <version>${mule.version}</version>
             <scope>provided</scope>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.fge/jackson-coreutils -->
+		<dependency>
+		    <groupId>com.github.fge</groupId>
+		    <artifactId>jackson-coreutils</artifactId>
+		    <version>1.8</version>
+		    <scope>provided</scope>
+		</dependency>
+        
     </dependencies>
 
 <properties>
