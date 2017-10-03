@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    
+    <flow name="cosmos-flightschedule-findBy-flow">	
+        <dw:transform-message doc:name="Transform Message">
+            <dw:input-payload doc:sample="data\flightschedule\flighschedule.json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	("CARRIER1" when inboundProperties."http.query.params".carrierCode != null otherwise "") : (inboundProperties."http.query.params".carrierCode when inboundProperties."http.query.params".carrierCode != null otherwise ""),
+	("FLTNBR1" when inboundProperties."http.query.params".flightNumber != null otherwise "") : (inboundProperties."http.query.params".flightNumber when inboundProperties."http.query.params".flightNumber != null otherwise ""),
+	("S_DEP_DT" when inboundProperties."http.query.params".departureDate != null otherwise "") : (inboundProperties."http.query.params".departureDate when inboundProperties."http.query.params".departureDate != null otherwise "")
+}]]></dw:set-payload>
+        </dw:transform-message>				
+		<invoke method="findBy" object-ref="cosmosFlightScheduleUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>		
+        <dw:transform-message doc:name="Transform Message2">
+            <dw:input-payload doc:sample="data\flightschedule\response\response.json"/>
+            <dw:set-payload><![CDATA[%dw 1.0                        
+%output application/json skipNullOn="elements"
+---
+payload
+]]></dw:set-payload>
+        </dw:transform-message>        
+        <logger level="INFO"  doc:name="Logger" message="#[message.payloadAs(java.lang.String)]"/>
+        <!-- filter result based on role -->       
+    </flow>
+    
+    <flow name="cosmos-flightschedule-findById-flow">
+    	<logger level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Transform Message">            
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	"id" : flowVars.id
+}]]></dw:set-payload>
+        </dw:transform-message>				
+		<invoke method="findBy" object-ref="cosmosFlightScheduleUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>		
+        <logger level="INFO"  doc:name="Logger" message="#[message.payloadAs(java.lang.String)]"/>
+        <!-- filter result based on role -->
+    </flow>
+    
+    <flow name="cosmos-flightschedule-save-flow">
+    	<object-to-string-transformer doc:name="Object to String"/>
+		<invoke method="save" object-ref="cosmosFlightScheduleUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="Invoke"/>		        
+        <!-- filter result based on role -->
+        <dw:transform-message doc:name="Transform Message2">
+            <dw:input-payload doc:sample="data\flightschedule\response\response.json"/>
+            <dw:set-payload><![CDATA[%dw 1.0                        
+%output application/java
+---
+{
+	location: "/flightschedule/" ++ payload.id
+}]]></dw:set-payload>
+        </dw:transform-message>	
+		<logger level="INFO"  doc:name="Logger" message="#[payload]"/>
+		<logger level="INFO"  doc:name="Logger" message="ID: #[payload['location']]"/>   
+		<set-property propertyName="location" value=" #[payload['location']]" doc:name="Property" />
+		<set-payload value="#[null]" doc:name="Set Payload"/>				           
+    </flow>    
+    
+</mule>

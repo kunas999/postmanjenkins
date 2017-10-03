@@ -26,50 +26,68 @@ import org.springframework.test.context.junit4.*;
 @ContextConfiguration(locations = {
         "classpath:beans-config.xml", 
         "classpath:test-beans.xml"})
-public class FlightDataConnectivityTest {
+public class FlightScheduleConnectivityTest {
 	
 	Logger logger = LogManager.getLogger(this.getClass());
 	
 	@Autowired
-	CosmosUtils cosmosFlightDataUtil = null;
+	CosmosUtils cosmosFlightScheduleUtil = null;
 		
 	@Before
 	public void startUp() throws DocumentClientException, IOException {		
 		
-		try {
-			cosmosFlightDataUtil.deleteCollection();
-		}
-		catch (DocumentClientException de) {
-			//swallow exception in case the collection is not there.
-		}
+//		try {
+//			cosmosFlightScheduleUtil.deleteCollection();
+//		}
+//		catch (DocumentClientException de) {
+//			//swallow exception in case the collection is not there.
+//		}
 		
-		try {
-			cosmosFlightDataUtil.createCollection();
-		}
-		catch (DocumentClientException de) {
-			//swallow exception in case the collection is not there.
-		}			
+//		try {
+//			cosmosFlightScheduleUtil.createCollection();
+//		}
+//		catch (DocumentClientException de) {
+//			//swallow exception in case the collection is not there.
+//		}			
 		
 	}
 	
 	@After
 	public void shutdown() throws DocumentClientException, Exception {
 		
-		cosmosFlightDataUtil.deleteCollection();
+		//cosmosFlightScheduleUtil.deleteCollection();
 				
 	}	
 	
 	@Test
 	public void shouldFindAll() throws Exception {
 			
-		cosmosFlightDataUtil.save(IOUtils.getResourceAsString("data/flightdata/flight1.json", FlightDataConnectivityTest.class));						
+		//cosmosFlightScheduleUtil.save(IOUtils.getResourceAsString("data/flightschedule/flight1.json", FlightScheduleConnectivityTest.class));						
 				
-		List<Document> results = cosmosFlightDataUtil.findAll();
+		List<Document> results = cosmosFlightScheduleUtil.findAll();
 				
 		assertEquals(1, results.size());
 		
         logger.info("results: {}", results.size());
         
 	}
+	
+	@Test
+	public void shouldFindBy() throws Exception {
+						
+		//cosmosFlightScheduleUtil.save(IOUtils.getResourceAsString("data/flightschedule/flight2.json", FlightScheduleConnectivityTest.class));						
+		
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("FLTNBR1", "4910");
+		params.put("CARRIER1", "DL");
+		params.put("S_DEP_DT", "20070203");
+		
+		List<Document> results = cosmosFlightScheduleUtil.findBy(params);
+				
+		assertEquals(1, results.size());
+		
+        logger.info("results: {}", results.size());
+        
+	}	
 	
 }

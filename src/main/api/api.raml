@@ -31,6 +31,9 @@ types:
   reservation:
     type: !include api/types/reservation/reservation.schema
     description: This is the schema describing reservation  
+#  flightdata:
+#    type: !include api/types/flightdata/flightdata.schema
+#    description: This is the schema describing flight data    
 
 # below is an example for creating resourcetypes.
 resourceTypes:
@@ -57,4 +60,5 @@ resourceTypes:
               schema: error
 
 /reservation: !include api/reservation.raml
+/flightschedule: !include api/flightschedule.raml
     

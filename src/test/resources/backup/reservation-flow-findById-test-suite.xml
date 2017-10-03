@@ -9,7 +9,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
     <munit:config name="munit" doc:name="MUnit configuration"/>
     <spring:beans>
-        <spring:import resource="classpath:cosmos-db.xml"/>
+        <spring:import resource="classpath:cosmos-db-reservation.xml"/>
         <spring:import resource="classpath:common-config.xml"/>
         <spring:import resource="classpath:beans-config.xml"/>        
     </spring:beans>

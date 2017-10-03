@@ -19,13 +19,13 @@
  		<constructor-arg name="collectionId" value="${cosmos.reservation.collection.name}" />
  	</bean> 
  	
- 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosFlightDataUtil" depends-on="flightDataPojo" scope="prototype">
+ 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosFlightScheduleUtil" depends-on="flightSchedulePojo" scope="prototype">
  		<property name="endpoint" value="${cosmos.flight.endpoint}" />
  		<property name="key" value="${cosmos.flight.key}" />
- 		<property name="pojo" ref = "flightDataPojo" /> 		 
+ 		<property name="pojo" ref = "flightSchedulePojo" /> 		 
  	</bean>
  	
- 	<bean class="com.hertz.cosmos.pojo.FlightData" id="flightDataPojo" depends-on="Secure_Property_Placeholder-template">
+ 	<bean class="com.hertz.cosmos.pojo.FlightSchedule" id="flightSchedulePojo" depends-on="Secure_Property_Placeholder-template">
  		<constructor-arg name="databaseName" value="${cosmos.flight.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.flight.collection.name}" />
  	</bean> 	

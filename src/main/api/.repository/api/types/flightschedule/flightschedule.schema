@@ -1,0 +1,268 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#", 
+  "definitions": {}, 
+  "id": "http://example.com/example.json", 
+  "properties": {
+    "ARRAPT": {
+      "default": "ABQ", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "ABQ"
+      ], 
+      "id": "/properties/ARRAPT", 
+      "title": "The arrapt schema.", 
+      "type": "string"
+    }, 
+    "ARRIVALDELAY_IND": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/ARRIVALDELAY_IND", 
+      "title": "The arrivaldelay_ind schema.", 
+      "type": "string"
+    }, 
+    "ARRIVAL_IND": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/ARRIVAL_IND", 
+      "title": "The arrival_ind schema.", 
+      "type": "string"
+    }, 
+    "A_ARR_DT": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/A_ARR_DT", 
+      "title": "The a_arr_dt schema.", 
+      "type": "string"
+    }, 
+    "A_ARR_TM": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/A_ARR_TM", 
+      "title": "The a_arr_tm schema.", 
+      "type": "string"
+    }, 
+    "CARRIER1": {
+      "default": "TZ", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "TZ"
+      ], 
+      "id": "/properties/CARRIER1", 
+      "title": "The carrier1 schema.", 
+      "type": "string"
+    }, 
+    "CARRIER2": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/CARRIER2", 
+      "title": "The carrier2 schema.", 
+      "type": "string"
+    }, 
+    "DEPAPT": {
+      "default": "MDW", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "MDW"
+      ], 
+      "id": "/properties/DEPAPT", 
+      "title": "The depapt schema.", 
+      "type": "string"
+    }, 
+    "DEPARTDELAY_IND": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/DEPARTDELAY_IND", 
+      "title": "The departdelay_ind schema.", 
+      "type": "string"
+    }, 
+    "DEPARTED_IND": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/DEPARTED_IND", 
+      "title": "The departed_ind schema.", 
+      "type": "string"
+    }, 
+    "DOM_INTL_IND": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/DOM_INTL_IND", 
+      "title": "The dom_intl_ind schema.", 
+      "type": "string"
+    }, 
+    "ELPTM": {
+      "default": "00310", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "00310"
+      ], 
+      "id": "/properties/ELPTM", 
+      "title": "The elptm schema.", 
+      "type": "string"
+    }, 
+    "FLTNBR1": {
+      "default": " 875", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        " 875"
+      ], 
+      "id": "/properties/FLTNBR1", 
+      "title": "The fltnbr1 schema.", 
+      "type": "string"
+    }, 
+    "FLTNBR2": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/FLTNBR2", 
+      "title": "The fltnbr2 schema.", 
+      "type": "string"
+    }, 
+    "FLTSTATUS": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/FLTSTATUS", 
+      "title": "The fltstatus schema.", 
+      "type": "string"
+    }, 
+    "INTAPT": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/INTAPT", 
+      "title": "The intapt schema.", 
+      "type": "string"
+    }, 
+    "LOAD_DT": {
+      "default": "20170929", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "20170929"
+      ], 
+      "id": "/properties/LOAD_DT", 
+      "title": "The load_dt schema.", 
+      "type": "string"
+    }, 
+    "LOCATION": {
+      "default": "MDW", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "MDW"
+      ], 
+      "id": "/properties/LOCATION", 
+      "title": "The location schema.", 
+      "type": "string"
+    }, 
+    "PLANECHG": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/PLANECHG", 
+      "title": "The planechg schema.", 
+      "type": "string"
+    }, 
+    "PREDICTED_FLTSTATUS": {
+      "default": "", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        ""
+      ], 
+      "id": "/properties/PREDICTED_FLTSTATUS", 
+      "title": "The predicted_fltstatus schema.", 
+      "type": "string"
+    }, 
+    "SOURCE": {
+      "default": "OAG", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "OAG"
+      ], 
+      "id": "/properties/SOURCE", 
+      "title": "The source schema.", 
+      "type": "string"
+    }, 
+    "STOPS": {
+      "default": "00", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "00"
+      ], 
+      "id": "/properties/STOPS", 
+      "title": "The stops schema.", 
+      "type": "string"
+    }, 
+    "S_ARRTM": {
+      "default": "1125", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "1125"
+      ], 
+      "id": "/properties/S_ARRTM", 
+      "title": "The s_arrtm schema.", 
+      "type": "string"
+    }, 
+    "S_ARR_DT": {
+      "default": "20070227", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "20070227"
+      ], 
+      "id": "/properties/S_ARR_DT", 
+      "title": "The s_arr_dt schema.", 
+      "type": "string"
+    }, 
+    "S_DEPTM": {
+      "default": "0915", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "0915"
+      ], 
+      "id": "/properties/S_DEPTM", 
+      "title": "The s_deptm schema.", 
+      "type": "string"
+    }, 
+    "S_DEP_DT": {
+      "default": "20070227", 
+      "description": "An explanation about the purpose of this instance.", 
+      "examples": [
+        "20070227"
+      ], 
+      "id": "/properties/S_DEP_DT", 
+      "title": "The s_dep_dt schema.", 
+      "type": "string"
+    }
+  }, 
+  "type": "object"
+}

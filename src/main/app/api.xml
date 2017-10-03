@@ -18,7 +18,16 @@
     </flow>    
     <flow name="post:/reservation:api-config">        
     	<flow-ref name="cosmos-reservation-save-flow" />
+    </flow> 
+    <flow name="get:/flightschedule:api-config">        
+    	<flow-ref name="cosmos-flightschedule-findBy-flow" />
+    </flow>
+    <flow name="get:/flightschedule/{id}:api-config">
+		<flow-ref name="cosmos-flightschedule-findById-flow"/>
     </flow>    
+    <flow name="post:/flightschedule:api-config">        
+    	<flow-ref name="cosmos-flightschedule-save-flow" />
+    </flow>       
     <apikit:mapping-exception-strategy name="api-apiKitGlobalExceptionMapping">
         <apikit:mapping statusCode="404">
             <apikit:exception value="org.mule.module.apikit.exception.NotFoundException" />

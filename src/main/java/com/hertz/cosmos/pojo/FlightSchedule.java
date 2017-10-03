@@ -1,8 +1,8 @@
 package com.hertz.cosmos.pojo;
 
-public class FlightData extends AbstractCosmosPojo {
+public class FlightSchedule extends AbstractCosmosPojo {
 
-	public FlightData(String databaseName, String collectionId) {
+	public FlightSchedule(String databaseName, String collectionId) {
 		super(databaseName, collectionId);
 	}
 
