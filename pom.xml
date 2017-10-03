@@ -201,7 +201,7 @@
 		<dependency>
 		    <groupId>com.hertz.cosmosdb</groupId>
 		    <artifactId>cosmos-db-mapping</artifactId>
-		    <version>1.0.0</version>
+		    <version>1.0.1</version>
 		</dependency>
 		<!-- junit testing -->
 		<dependency>
@@ -268,8 +268,8 @@
         
     </dependencies>
 
-<properties>
+	<properties>
         <munit.version>1.3.4</munit.version>
-    <mule.munit.support.version>3.8.4</mule.munit.support.version>
+    	<mule.munit.support.version>3.8.4</mule.munit.support.version>
     </properties>
 </project>

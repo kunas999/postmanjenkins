@@ -8,7 +8,7 @@
    http://www.mulesoft.org/schema/mule/secure-property-placeholder http://www.mulesoft.org/schema/mule/secure-property-placeholder/current/mule-secure-property-placeholder.xsd
    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
- 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosReservationUtil" depends-on="reservationPojo" scope="prototype">
+ 	 <bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosReservationUtil" depends-on="reservationPojo" scope="prototype">
  		<property name="endpoint" value="${cosmos.endpoint}" />
  		<property name="key" value="${cosmos.key}" />
  		<property name="pojo" ref = "reservationPojo" /> 		 
@@ -17,6 +17,17 @@
  	<bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo" depends-on="Secure_Property_Placeholder-template">
  		<constructor-arg name="databaseName" value="${cosmos.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.reservation.collection.name}" />
+ 	</bean> 
+ 	
+ 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosFlightDataUtil" depends-on="flightDataPojo" scope="prototype">
+ 		<property name="endpoint" value="${cosmos.flight.endpoint}" />
+ 		<property name="key" value="${cosmos.flight.key}" />
+ 		<property name="pojo" ref = "flightDataPojo" /> 		 
  	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.pojo.FlightData" id="flightDataPojo" depends-on="Secure_Property_Placeholder-template">
+ 		<constructor-arg name="databaseName" value="${cosmos.flight.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.flight.collection.name}" />
+ 	</bean> 	
     
 </beans>
