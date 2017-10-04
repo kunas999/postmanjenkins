@@ -36,33 +36,33 @@ public class FlightScheduleConnectivityTest {
 	@Before
 	public void startUp() throws DocumentClientException, IOException {		
 		
-//		try {
-//			cosmosFlightScheduleUtil.deleteCollection();
-//		}
-//		catch (DocumentClientException de) {
-//			//swallow exception in case the collection is not there.
-//		}
+		try {
+			cosmosFlightScheduleUtil.deleteCollection();
+		}
+		catch (DocumentClientException de) {
+			//swallow exception in case the collection is not there.
+		}
 		
-//		try {
-//			cosmosFlightScheduleUtil.createCollection();
-//		}
-//		catch (DocumentClientException de) {
-//			//swallow exception in case the collection is not there.
-//		}			
+		try {
+			cosmosFlightScheduleUtil.createCollection();
+		}
+		catch (DocumentClientException de) {
+			//swallow exception in case the collection is not there.
+		}			
 		
 	}
 	
 	@After
 	public void shutdown() throws DocumentClientException, Exception {
 		
-		//cosmosFlightScheduleUtil.deleteCollection();
+		cosmosFlightScheduleUtil.deleteCollection();
 				
 	}	
 	
 	@Test
 	public void shouldFindAll() throws Exception {
 			
-		//cosmosFlightScheduleUtil.save(IOUtils.getResourceAsString("data/flightschedule/flight1.json", FlightScheduleConnectivityTest.class));						
+		cosmosFlightScheduleUtil.save(IOUtils.getResourceAsString("data/flightschedule/flight1.json", FlightScheduleConnectivityTest.class));						
 				
 		List<Document> results = cosmosFlightScheduleUtil.findAll();
 				
@@ -75,7 +75,7 @@ public class FlightScheduleConnectivityTest {
 	@Test
 	public void shouldFindBy() throws Exception {
 						
-		//cosmosFlightScheduleUtil.save(IOUtils.getResourceAsString("data/flightschedule/flight2.json", FlightScheduleConnectivityTest.class));						
+		cosmosFlightScheduleUtil.save(IOUtils.getResourceAsString("data/flightschedule/flight2.json", FlightScheduleConnectivityTest.class));						
 		
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("FLTNBR1", "4910");

@@ -172,6 +172,12 @@
 			<groupId>com.hertz.mule</groupId>
 			<artifactId>common-utils</artifactId>
 		</dependency>
+		
+		<!--  <dependency>
+			<groupId>com.hertz.mule</groupId>
+			<artifactId>auditing-framework</artifactId>
+			<version>${hertz.common.audit.framework.version}</version>
+		</dependency>	-->
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-spring-config</artifactId>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <munit:config name="munit" doc:name="MUnit configuration"/>
+    <spring:beans>
+        <spring:import resource="classpath:cosmos-db-reservation.xml"/>
+        <spring:import resource="classpath:common-config.xml"/>
+        <spring:import resource="classpath:beans-config.xml"/>        
+    </spring:beans>
+    <munit:before-test name="reservation-test-save-suiteBefore_Test" description="Before tests actions">    	      
+        <!-- <invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/> --> 	
+        <invoke method="createCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>        
+    </munit:before-test>
+    <munit:after-test name="reservation-test-save-suiteAfter_Test" description="After tests actions">
+    	<invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>
+    </munit:after-test>   
+    <munit:test name="reservation-test-suite-cosmos-save-Test1" description="Test" ignore="true">
+        <munit:set payload="#[getResource('src/test/resources/data/reservations/res3.json').asString()]" mimeType="application/json" doc:name="Set Message test" />        
+        <flow-ref name="cosmos-reservation-save-flow" doc:name="Flow-ref to cosmos-save"/>
+        <logger message="#[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Logger"/>
+        <logger message="#[message.outboundProperties.location]" level="INFO" doc:name="Logger"/>
+        <munit:assert-true condition="#[message.outboundProperties.location != null]" doc:name="Assert True"/>
+    </munit:test>   
+</mule>

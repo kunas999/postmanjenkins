@@ -23,10 +23,10 @@ http://www.mulesoft.org/schema/mule/api-platform-gw http://www.mulesoft.org/sche
  	refer readme.md documentation for additional details 
      -->
      <!--  Below are common mule configuration files that will be imported through maven dependency -->
-<!--  <spring:beans>
+  	<spring:beans>
         <spring:import resource="classpath:common-error.xml"/>
         <spring:import resource="classpath:common-utils.xml"/>
-    </spring:beans> -->
+    </spring:beans>
  
 	<!--  All the mule applications will be https one-way ssl enabled -->
  
@@ -36,6 +36,6 @@ http://www.mulesoft.org/schema/mule/api-platform-gw http://www.mulesoft.org/sche
         </tls:context>
     </http:listener-config>
     <apikit:config name="api-config" raml="api.raml" consoleEnabled="${console.enabled}" doc:name="Router" keepRamlBaseUri="${keep.raml.uri}"/>
-    <!-- <api-platform-gw:api apiName="${api-autodiscovery-name}" version="${api-autodiscovery-version}" flowRef="api-main" create="true" apikitRef="api-config" doc:name="API Autodiscovery"/> -->
+    <api-platform-gw:api apiName="${api-autodiscovery-name}" version="${api-autodiscovery-version}" flowRef="api-main" create="true" apikitRef="api-config" doc:name="API Autodiscovery"/>
    
 </mule>
