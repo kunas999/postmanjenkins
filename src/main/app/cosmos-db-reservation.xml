@@ -11,9 +11,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
     
-    <spring:beans>
+<!--     <spring:beans>
         <spring:import resource="classpath:beans-config.xml"/>
-    </spring:beans>
+    </spring:beans> -->
        
     <flow name="cosmos-reservation-findBy-flow">	
         <dw:transform-message doc:name="Transform Message">

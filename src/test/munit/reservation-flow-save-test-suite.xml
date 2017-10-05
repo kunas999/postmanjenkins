@@ -9,8 +9,8 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <spring:beans>
         <spring:import resource="classpath:cosmos-db-reservation.xml"/>
         <spring:import resource="classpath:common-config.xml"/>
-        <spring:import resource="classpath:beans-config.xml"/>        
-    </spring:beans>
+<!--         <spring:import resource="classpath:beans-config.xml"/>        
+ -->    </spring:beans>
     <munit:before-test name="reservation-test-save-suiteBefore_Test" description="Before tests actions">    	      
         <!-- <invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/> --> 	
         <invoke method="createCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>        
