@@ -1,3 +1,15 @@
 /target
 DocumentDB.Spatial.Sql.dll* 
-Microsoft.Azure.Documents.ServiceInterop.dll* 
+Microsoft.Azure.Documents.ServiceInterop.dll*
+.DS_Store
+/bin/
+target/
+build/
+.mule
+.project
+.settings/
+.classpath
+mule-project.xml
+.catalog/
+/bin/
+catalog/
