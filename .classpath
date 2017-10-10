@@ -27,6 +27,7 @@
       <attribute value="test" name="org.mule.tooling.scope"/>
     </attributes>
   </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/com/hertz/mule/lib-global-config/1.0/lib-global-config-1.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/mockito/mockito-all/1.8.2/mockito-all-1.8.2.jar">
     <attributes>
       <attribute value="test" name="org.mule.tooling.scope"/>
