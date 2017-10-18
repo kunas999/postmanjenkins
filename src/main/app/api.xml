@@ -4,7 +4,7 @@
         <http:listener config-ref="global-api-httpListenerConfig" path="${api.path}" doc:name="HTTP" />
         <set-session-variable variableName="uuid" value="#[java.util.UUID.randomUUID().toString()]" doc:name="Set UUID Session Variable" />
         <apikit:router config-ref="api-config" doc:name="APIkit Router" />
-        <!-- <exception-strategy ref="apiChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/> -->
+        <exception-strategy ref="apiChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
     </flow>
  	<flow name="api-console">
         <http:listener config-ref="global-api-httpListenerConfig" path="console/*" doc:name="HTTP"/>
