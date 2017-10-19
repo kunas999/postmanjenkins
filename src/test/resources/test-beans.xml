@@ -8,11 +8,11 @@
    http://www.mulesoft.org/schema/mule/secure-property-placeholder http://www.mulesoft.org/schema/mule/secure-property-placeholder/current/mule-secure-property-placeholder.xsd
    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="Secure_Property_Placeholder-template" class="org.mule.modules.security.placeholder.SecurePropertyPlaceholderModule" >
+	<bean id="Secure_Property_Placeholder-cosmos" class="org.mule.modules.security.placeholder.SecurePropertyPlaceholderModule" >
 	    <property name="encryptionAlgorithm" value="Blowfish" />
 	    <property name="encryptionMode" value="CBC" />
 	    <property name="key" value="${property.key}" />
-	    <property name="location" value="classpath:env/template-hertz-api-led-dev.properties" />
+	    <property name="location" value="classpath:env/sys-api-cosmos-db-dev.properties" />
 	    <property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
     

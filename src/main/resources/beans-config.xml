@@ -14,7 +14,7 @@
  		<property name="pojo" ref = "reservationPojo" /> 		 
  	</bean>
  	
- 	<bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo" depends-on="Secure_Property_Placeholder-template">
+ 	<bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.reservation.collection.name}" />
  	</bean> 
@@ -25,7 +25,7 @@
  		<property name="pojo" ref = "flightSchedulePojo" /> 		 
  	</bean>
  	
- 	<bean class="com.hertz.cosmos.pojo.FlightSchedule" id="flightSchedulePojo" depends-on="Secure_Property_Placeholder-template">
+ 	<bean class="com.hertz.cosmos.pojo.FlightSchedule" id="flightSchedulePojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.flight.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.flight.collection.name}" />
  	</bean> 	
