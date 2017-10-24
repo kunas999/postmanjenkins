@@ -14,13 +14,13 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     <munit:before-test name="reservation-test-suiteBefore_Test" description="Before tests actions">    	      
        <!--  <invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/> -->	
         <invoke method="createCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>        
-        <munit:set payload="#[getResource('src/test/resources/data/reservations/res1.json').asString()]" mimeType="application/json" doc:name="Set Message test" />        
+        <munit:set payload="#[getResource('data/reservations/res1.json').asString()]" mimeType="application/json" doc:name="Set Message test" />        
         <invoke method="save" object-ref="cosmosReservationUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="Invoke"/>
     </munit:before-test>
     <munit:after-test name="reservation-test-suiteAfter_Test" description="After tests actions">
     	<invoke method="deleteCollection" object-ref="cosmosReservationUtil" doc:name="Invoke"/>
     </munit:after-test>   
-    <munit:test name="reservation-test-suite-cosmos-findByTest1" description="Test" ignore="true">
+    <munit:test name="reservation-test-suite-cosmos-findByTest1" description="Test" ignore="false">
         <munit:set payload="#[]" doc:name="Set Message">
    			<munit:inbound-properties>
                 <munit:inbound-property key="http.query.params" value="#[['reservationId':'H4280164164', 'airlineCode':'DL','pickupLocation':'JAX']]"/>

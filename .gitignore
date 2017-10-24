@@ -13,3 +13,5 @@ mule-project.xml
 .catalog/
 /bin/
 catalog/
+.mule/
+.settings
