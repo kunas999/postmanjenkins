@@ -86,7 +86,7 @@ payload
    "type": "HTTP", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
    "flowStep": "start", //It is used to identify the step for logging start/ end
    "version":"1.0",  
-   "transactionType": "lookup", //Unique messageId ID eg: customer email address
+   "transactionId": "lookup", //Unique messageId ID eg: customer email address
    "message":"", //It is used to store the detailed descriptive text about the event or message
    "eventName": "flightScheduleLookup",
    "additionalKeys": {
@@ -111,7 +111,7 @@ payload
    "type": "HTTP", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
    "flowStep": "end", //It is used to identify the step for logging start/ end
    "version":"1.0",  
-   "transactionType": "lookup", //Unique messageId ID eg: customer email address
+   "transactionId": "lookup", //Unique messageId ID eg: customer email address
    "message":"", //It is used to store the detailed descriptive text about the event or message
    "eventName": "flightScheduleLookup",
    "additionalKeys": {

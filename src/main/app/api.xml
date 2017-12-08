@@ -23,7 +23,10 @@
     </flow>
     <flow name="get:/reservation/{id}:api-config">
 		<flow-ref name="cosmos-reservation-findById-flow"/>
-    </flow>    
+    </flow>
+    <flow name="put:/reservation/{id}:api-config">
+		<flow-ref name="cosmos-reservation-udpate-flow"/>
+    </flow>         
     <flow name="post:/reservation:api-config">        
     	<flow-ref name="cosmos-reservation-save-flow" />
     </flow> 
@@ -32,7 +35,7 @@
     </flow>
     <flow name="get:/flightschedule/{id}:api-config">
 		<flow-ref name="cosmos-flightschedule-findById-flow"/>
-    </flow>    
+    </flow>       
     <flow name="post:/flightschedule:api-config">        
     	<flow-ref name="cosmos-flightschedule-save-flow" />
     </flow>       

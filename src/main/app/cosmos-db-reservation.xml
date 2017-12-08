@@ -11,21 +11,18 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
     
-<!--     <spring:beans>
-        <spring:import resource="classpath:beans-config.xml"/>
-    </spring:beans> -->
-       
     <flow name="cosmos-reservation-findBy-flow">	
         <dw:transform-message doc:name="Transform Message">
             <dw:input-payload doc:sample="data\reservations\res1.json"/>
-            <dw:set-payload><![CDATA[%dw 1.0
-%output application/java
----
-{
-	("OTA_VehResRQ.vehResRQCore.vehRentalCore.pickUpLocation[0].locationCode" when inboundProperties."http.query.params".pickupLocation != null otherwise "") : (inboundProperties."http.query.params".pickupLocation when inboundProperties."http.query.params".pickupLocation != null otherwise ""),
-	("OTA_VehResRQ.vehResRQCore.uniqueID[0].id" when inboundProperties."http.query.params".reservationId != null otherwise "") : (inboundProperties."http.query.params".reservationId when inboundProperties."http.query.params".reservationId != null otherwise ""),
-	("OTA_VehResRQ.pos.source[0].airlineVendorID" when inboundProperties."http.query.params".airlineCode != null otherwise "") : (inboundProperties."http.query.params".airlineCode when inboundProperties."http.query.params".airlineCode != null otherwise "")
-}]]></dw:set-payload>
+			<dw:set-payload><![CDATA[%dw 1.0
+				%output application/java
+				---
+				{
+					("OTA_VehResRQ.vehResRQCore.vehRentalCore.pickUpLocation[0].locationCode" when inboundProperties."http.query.params".pickupLocation != null otherwise "") : (inboundProperties."http.query.params".pickupLocation when inboundProperties."http.query.params".pickupLocation != null otherwise ""),
+					("OTA_VehResRQ.vehResRQCore.uniqueID[0].id" when inboundProperties."http.query.params".reservationId != null otherwise "") : (inboundProperties."http.query.params".reservationId when inboundProperties."http.query.params".reservationId != null otherwise ""),
+					("OTA_VehResRQ.pos.source[0].airlineVendorID" when inboundProperties."http.query.params".airlineCode != null otherwise "") : (inboundProperties."http.query.params".airlineCode when inboundProperties."http.query.params".airlineCode != null otherwise "")
+				}]]>
+			</dw:set-payload>
         </dw:transform-message>				
 		<invoke method="findBy" object-ref="cosmosReservationUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>		
         <logger level="INFO"  doc:name="Logger" message="#[message.payloadAs(java.lang.String)]"/>
@@ -36,11 +33,12 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
     	<logger level="INFO" doc:name="Logger"/>
         <dw:transform-message doc:name="Transform Message">            
             <dw:set-payload><![CDATA[%dw 1.0
-%output application/java
----
-{
-	"id" : flowVars.id
-}]]></dw:set-payload>
+				%output application/java
+				---
+				{
+					"id" : flowVars.id
+				}]]>
+			</dw:set-payload>
         </dw:transform-message>				
 		<invoke method="findBy" object-ref="cosmosReservationUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>		
         <logger level="INFO"  doc:name="Logger" message="#[message.payloadAs(java.lang.String)]"/>
@@ -48,22 +46,63 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
     </flow>
     
     <flow name="cosmos-reservation-save-flow">
-    	<object-to-string-transformer doc:name="Object to String"/>
+    	<object-to-string-transformer doc:name="Object to String"/>    	
 		<invoke method="save" object-ref="cosmosReservationUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="Invoke"/>		        
         <!-- filter result based on role -->
         <dw:transform-message doc:name="Transform Message2">
             <dw:input-payload doc:sample="data\reservations\response\response.json"/>
             <dw:set-payload><![CDATA[%dw 1.0                        
-%output application/java
----
-{
-	location: "/reservation/" ++ payload.id
-}]]></dw:set-payload>
+				%output application/java
+				---
+				{
+					location: "/reservation/" ++ payload.id
+				}]]>
+			</dw:set-payload>
         </dw:transform-message>	
 		<logger level="INFO"  doc:name="Logger" message="#[payload]"/>
 		<logger level="INFO"  doc:name="Logger" message="ID: #[payload['location']]"/>   
 		<set-property propertyName="location" value=" #[payload['location']]" doc:name="Property" />
 		<set-payload value="#[null]" doc:name="Set Payload"/>				           
-    </flow>    
+    </flow>        
+    
+    <flow name="cosmos-reservation-udpate-flow">
+    	
+    	<!--  get the ID from incoming path and merge with incoming JSON -->
+        <dw:transform-message doc:name="Transform Message">
+            <dw:input-payload doc:sample="data\reservations\res1.json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+				%output application/json
+				---				
+				{ id: inboundProperties."http.uri.params".id when inboundProperties."http.uri.params".id != null otherwise "" }					
+				++
+				payload
+				]]>
+			</dw:set-payload>
+        </dw:transform-message>   	
+    	
+    	<object-to-string-transformer doc:name="Object to String"/>
+    	
+    	<logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    	
+    	<!--  update the record, save does both save and update -->
+    	<invoke method="save" object-ref="cosmosReservationUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="Invoke"/>
+    	
+    	<logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    	    	    	    	    	    	    	    	
+        <dw:transform-message doc:name="Transform Message2">
+            <dw:input-payload doc:sample="data\reservations\response\response.json"/>
+            <dw:set-variable variableName="location"><![CDATA[%dw 1.0                        
+				%output application/java
+				---
+					"/reservation/" ++ payload.id
+				]]>
+			</dw:set-variable>
+        </dw:transform-message>	
+		<logger level="INFO"  doc:name="Logger" message="#[payload]"/>
+		<logger level="INFO"  doc:name="Logger" message="ID: #[flowVars['location']]"/>   
+		<set-property propertyName="location" value="#[flowVars['location']]" doc:name="Property" />
+		<set-payload value="#[payload]" doc:name="Set Payload"/>
+    	    	
+    </flow>
     
 </mule>
