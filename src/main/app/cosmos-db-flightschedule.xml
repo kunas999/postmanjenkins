@@ -12,8 +12,29 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
     
     <flow name="cosmos-flightschedule-findBy-flow">
-    
-    	<flow-ref name="logStart" doc:name="Flow Reference"/>
+        <async doc:name="startAsyncLogging">
+            <dw:transform-message doc:name="createauditLoggingVar">
+                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
+%output application/java
+---
+{
+   "uuid": sessionVars.uuid default null,
+   "type": "HTTP", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
+   "flowStep": "start", //It is used to identify the step for logging start/ end
+   "version":"1.0",  
+   "transactionId": "lookup", //Unique messageId ID eg: customer email address
+   "message":"", //It is used to store the detailed descriptive text about the event or message
+   "eventName": "flightScheduleLookup",
+   "additionalKeys": {
+    	"carrier":inboundProperties."http.query.params".carrierCode default null,
+    	"flight": inboundProperties."http.query.params".flightNumber default null,
+    	"departure": inboundProperties."http.query.params".departureDate default null
+    }   
+}]]></dw:set-variable>
+            </dw:transform-message>
+            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
+        </async>
+
     	
         <dw:transform-message doc:name="Transform Message">
             <dw:input-payload doc:sample="data\flightschedule\flighschedule.json"/>
@@ -35,9 +56,30 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 ---
 payload
 ]]></dw:set-payload>
-        </dw:transform-message>        
-        
-        <flow-ref name="logEnd" doc:name="Flow Reference"/>
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String"/>
+        <logger message="final payload: #[payload]" level="INFO" doc:name="Logger"/>
+        <async doc:name="startAsyncLogging">
+            <dw:transform-message doc:name="createauditLoggingVar">
+                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
+%output application/java
+---
+{
+   "uuid": sessionVars.uuid default null,
+   "type": "HTTP", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
+   "flowStep": "end", //It is used to identify the step for logging start/ end
+   "version":"1.0",  
+   "transactionId": "lookup", //Unique messageId ID eg: customer email address
+   "message":"", //It is used to store the detailed descriptive text about the event or message
+   "eventName": "flightScheduleLookup",
+   "additionalKeys": {
+    	"records": payload.size default 0
+    }   
+}]]></dw:set-variable>
+            </dw:transform-message>
+            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
+        </async>
+
                
     </flow>
     
@@ -76,51 +118,5 @@ payload
     </flow>    
     
     <!-- logging subflows -->
-    <sub-flow name="logStart">
-	 <async doc:name="startAsyncLogging">            
-            <dw:transform-message doc:name="createauditLoggingVar">
-                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
-%output application/java
----
-{
-   "uuid": sessionVars.uuid default null,
-   "type": "HTTP", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
-   "flowStep": "start", //It is used to identify the step for logging start/ end
-   "version":"1.0",  
-   "transactionId": "lookup", //Unique messageId ID eg: customer email address
-   "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "flightScheduleLookup",
-   "additionalKeys": {
-    	"carrier":inboundProperties."http.query.params".carrierCode default null,
-    	"flight": inboundProperties."http.query.params".flightNumber default null,
-    	"departure": inboundProperties."http.query.params".departureDate default null
-    }   
-}]]></dw:set-variable>
-            </dw:transform-message>
-            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
-        </async>    
-    </sub-flow>
     
-    <sub-flow name="logEnd">
-	 <async doc:name="startAsyncLogging">            
-            <dw:transform-message doc:name="createauditLoggingVar">
-                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
-%output application/java
----
-{
-   "uuid": sessionVars.uuid default null,
-   "type": "HTTP", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
-   "flowStep": "end", //It is used to identify the step for logging start/ end
-   "version":"1.0",  
-   "transactionId": "lookup", //Unique messageId ID eg: customer email address
-   "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "flightScheduleLookup",
-   "additionalKeys": {
-    	"records": payload.size default 0
-    }   
-}]]></dw:set-variable>
-            </dw:transform-message>
-            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
-        </async>    
-    </sub-flow>    
 </mule>
