@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
     
     <flow name="cosmos-flightschedule-findBy-flow">
     
-    	<flow-ref name="logStart" />
+    	<flow-ref name="logStart" doc:name="Flow Reference"/>
     	
         <dw:transform-message doc:name="Transform Message">
             <dw:input-payload doc:sample="data\flightschedule\flighschedule.json"/>
@@ -26,7 +26,8 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 	("S_DEP_DT" when inboundProperties."http.query.params".departureDate != null otherwise "") : (inboundProperties."http.query.params".departureDate when inboundProperties."http.query.params".departureDate != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>				
-		<invoke method="findBy" object-ref="cosmosFlightScheduleUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>		
+		<invoke method="findBy" object-ref="cosmosFlightScheduleUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
+        <logger message="data from DB = #[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Logger"/>		
         <dw:transform-message doc:name="Transform Message2">
             <dw:input-payload doc:sample="data\flightschedule\response\response.json"/>
             <dw:set-payload><![CDATA[%dw 1.0                        
@@ -36,7 +37,7 @@ payload
 ]]></dw:set-payload>
         </dw:transform-message>        
         
-        <flow-ref name="logEnd" />
+        <flow-ref name="logEnd" doc:name="Flow Reference"/>
                
     </flow>
     
