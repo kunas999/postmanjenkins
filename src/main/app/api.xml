@@ -55,4 +55,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	<flow name="post:/flightschedule:api-config">
 		<flow-ref name="cosmos-flightschedule-save-flow" doc:name="Flow Reference" />
 	</flow>
+	
+	<flow name="get:/valueAddedServices:api-config">
+		<flow-ref name="cosmos-retrieveVASbyTargetPOVCode-flow" doc:name="cosmos-retrieveVASbyTargetPOVCode-flow" />
+	</flow>	
 </mule>

@@ -28,6 +28,17 @@
  	<bean class="com.hertz.cosmos.pojo.FlightSchedule" id="flightSchedulePojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.flight.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.flight.collection.name}" />
- 	</bean> 	
+ 	</bean> 
+ 	
+ 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosValueAddedServicesUtil" depends-on="valueAddedServicesPojo" scope="prototype">
+ 		<property name="endpoint" value="${cosmos.vas.endpoint}" />
+ 		<property name="key" value="${cosmos.vas.key}" />
+ 		<property name="pojo" ref = "valueAddedServicesPojo" /> 		 
+ 	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.pojo.ValueAddedServices" id="valueAddedServicesPojo" depends-on="Secure_Property_Placeholder-cosmos">
+ 		<constructor-arg name="databaseName" value="${cosmos.vas.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.vas.collection.name}" />
+ 	</bean> 	 		
     
 </beans>
