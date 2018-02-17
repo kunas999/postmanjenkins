@@ -33,26 +33,27 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/java
 ---
-
 	{
-	  "Target_LOV_CODE": inboundProperties."http.query.params".targetPOVCode when inboundProperties."http.query.params".targetPOVCode != null otherwise ""
-	}
-
-]]></dw:set-payload>
+	  "Target_CD": inboundProperties."http.query.params".targetPOVCode when inboundProperties."http.query.params".targetPOVCode != null otherwise ""
+	}]]></dw:set-payload>
         </dw:transform-message>
-        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
+        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
 		<invoke method="findBy" object-ref="cosmosValueAddedServicesUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
+        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
 		
         <dw:transform-message doc:name="transformReponse">
             <dw:input-payload doc:sample="data\flightschedule\response\response.json"/>
             <dw:set-payload><![CDATA[%dw 1.0                        
 %output application/json skipNullOn="elements"
 ---
-payload
+{
+	RDM_CD: payload.hashMap.RDM__CD
+}
+
 ]]></dw:set-payload>
         </dw:transform-message>
         <object-to-string-transformer doc:name="Object to String"/>
-        <logger message="final payload: #[payload]" level="INFO" doc:name="Logger"/>
+        <logger message="final payload: #[payload]" level="DEBUG" doc:name="Logger"/>
         <async doc:name="startAsyncLogging">
             <dw:transform-message doc:name="createauditLoggingVar">
                 <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
