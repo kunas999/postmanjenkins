@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -26,26 +26,25 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
             </dw:transform-message>
             <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
         </async>
-
-    	
-        <dw:transform-message doc:name="queryParamForCosmosDB">
-            <dw:input-payload doc:sample="data\flightschedule\flighschedule.json"/>
+        <dw:transform-message doc:name="queryParamToDB">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/java
 ---
-	{
-	  "Target_LOV_CODE": inboundProperties."http.query.params".targetPOVCode when inboundProperties."http.query.params".targetPOVCode != null otherwise ""
-	}]]></dw:set-payload>
+{
+	"Target_LOV_CODE": inboundProperties."http.query.params".targetPOVCode when inboundProperties."http.query.params".targetPOVCode != null otherwise ""
+}]]></dw:set-payload>
         </dw:transform-message>
+
         <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
 		<invoke method="findBy" object-ref="cosmosValueAddedServicesUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
-        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
-        <dw:transform-message doc:name="Transform Message">
+        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
+        <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
+            <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
-	RDM_CD: payload.hashMap.RDM_LOV_CODE
+	RDM_CD: payload.RDM_LOV_CODE[0]
 }]]></dw:set-payload>
         </dw:transform-message>
 

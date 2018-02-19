@@ -1,0 +1,23 @@
+[
+	{
+		"SOURCE_LOV_EXT_SYST_NAME":"GDD",
+		"Source_LOV_CODE":"NEV",
+		"RDM_LOV_TYPE":"VAS_CODE",
+		"_rid":"27kYAMcMJAIKAAAAAAAAAA==",
+		"Target_LOV_CODE":"NavigationSysLevelCd",
+		"Target_LOV_EXT_SYST_NAME":"CMDR",
+		"Target_LOV_VALUE":"Navigation System Preferred",
+		"Target_LOV_DESCRIPTION":"Navigation System Preferred",
+		"Source_LOV_VALUE":"Neverlost",
+		"Source_LOV_TYPE":"VAS_CODE",
+		"RDM_LOV_VALUE":"Neverlost",
+		"Source_LOV_DESCRIPTION":"Neverlost",
+		"_attachments":"attachments/",
+		"RDM_LOV_DESCRIPTION":"Neverlost",
+		"id":"d611bb25-e367-4e4e-9285-e5a94c7d0328",
+		"_self":"dbs/27kYAA==/colls/27kYAMcMJAI=/docs/27kYAMcMJAIKAAAAAAAAAA==/",
+		"RDM_LOV_CODE":"NEV",
+		"Target_LOV_TYPE":"VAS_CODE",
+		"_etag":"\"00006f02-0000-0000-0000-5a89da7f0000\"","_ts":1518983807
+	}
+]
