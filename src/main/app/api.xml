@@ -59,17 +59,4 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	<flow name="get:/valueAddedServices:api-config">
 		<flow-ref name="cosmos-retrieveVASbyTargetPOVCode-flow" doc:name="cosmos-retrieveVASbyTargetPOVCode-flow" />
 	</flow>	
-	
-	<flow name="get:/ramSync/carClass:api-config">
-		<flow-ref name="retrieveCarClassFlow" doc:name="retrieveCarClassFlow" />
-	</flow>	
-	
-	<flow name="get:/ramSync/locations:api-config">
-		<flow-ref name="retrieveLocationFlow" doc:name="retrieveLocationFlow" />
-	</flow>	
-			
-	<flow name="get:/ramSync/chargeIndicator:api-config">
-		<flow-ref name="retrieveChargeTypeFlow" doc:name="retrieveChargeTypeFlow" />
-	</flow>	
-		
 </mule>
