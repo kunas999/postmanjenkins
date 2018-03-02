@@ -1,0 +1,20 @@
+    description: check if the given target LOV code is VAS, if so retreive source LOV Code
+    get:
+      is: [client-id-required]
+      description: Search flight schedule using carrier code, flight number and departure date. All three parameters are required.
+      queryParameters:           
+           targetPOVCode:
+             displayName: Target POV Code
+             type: string
+             description: The code for vas or special pref from CMDR
+             example: "LiabilityDmgWvrLevelCode"
+             required: true
+      responses:
+          200:
+            body:    
+              #schema: flightschedule
+              example: !include example/flightschedule/flightschedulelist.json
+          404: 
+            description: No flight schedule record found in the source system for the given search criteria
+            body:
+              schema: error

@@ -39,6 +39,39 @@
  	<bean class="com.hertz.cosmos.pojo.ValueAddedServices" id="valueAddedServicesPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.vas.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.vas.collection.name}" />
- 	</bean> 	 		
+ 	</bean> 
+ 	
+ 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosRamCarClassUtil" depends-on="ramCarClassPojo" scope="prototype">
+ 		<property name="endpoint" value="${cosmos.ram.endpoint}" />
+ 		<property name="key" value="${cosmos.ram.key}" />
+ 		<property name="pojo" ref = "ramCarClassPojo" /> 		 
+ 	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.pojo.RamCarClass" id="ramCarClassPojo" depends-on="Secure_Property_Placeholder-cosmos">
+ 		<constructor-arg name="databaseName" value="${cosmos.ram.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.carclass.collection.name}" />
+ 	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosRamLocationsUtil" depends-on="ramLocationsPojo" scope="prototype">
+ 		<property name="endpoint" value="${cosmos.ram.endpoint}" />
+ 		<property name="key" value="${cosmos.ram.key}" />
+ 		<property name="pojo" ref = "ramLocationsPojo" /> 		 
+ 	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.pojo.RamLocations" id="ramLocationsPojo" depends-on="Secure_Property_Placeholder-cosmos">
+ 		<constructor-arg name="databaseName" value="${cosmos.ram.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.loc.collection.name}" />
+ 	</bean> 	
+ 	
+ 	<bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosRamChargeIndUtil" depends-on="ramChargeIndPojo" scope="prototype">
+ 		<property name="endpoint" value="${cosmos.ram.endpoint}" />
+ 		<property name="key" value="${cosmos.ram.key}" />
+ 		<property name="pojo" ref = "ramChargeIndPojo" /> 		 
+ 	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.pojo.RamChargeInd" id="ramChargeIndPojo" depends-on="Secure_Property_Placeholder-cosmos">
+ 		<constructor-arg name="databaseName" value="${cosmos.ram.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.chargeind.collection.name}" />
+ 	</bean>  	 	 		 		
     
 </beans>

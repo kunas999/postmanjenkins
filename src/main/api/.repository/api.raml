@@ -1,8 +1,8 @@
 #%RAML 1.0
-title: template for hertz experience API
+title: Sys API Cosmos DB System layer API
 version: 1.0
 #baseUri: https://template-hertz-exp-api.cloudhub.io/api/{version}
-baseUri: https://{envPrefix}-sys-api-cosmos-db.esb-{version}.hertz.com/api/
+baseUri: https://{envPrefix}-sys-api-cosmos-db-{apiVersion}.esb.hertz.com/api/
 documentation: 
   - title: Hertz  Experiance API template 
     content: | 
@@ -61,4 +61,6 @@ resourceTypes:
 
 /reservation: !include api/reservation.raml
 /flightschedule: !include api/flightschedule.raml
+/valueAddedServices: !include api/valueaddedservices.raml
+/ramSync: !include api/ramsync.raml
     

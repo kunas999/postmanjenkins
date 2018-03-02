@@ -42,7 +42,23 @@
           404: 
             description: No reservation was found in the system for the given Id
             body:
-              schema: error              
+              schema: error 
+      put:
+        is: [client-id-required]
+        description: Persists a reservation copy
+        body:
+          #schema: reservation
+          example: !include example/reservation/reservation.json
+        responses:
+          200:
+            description: A reservation copy is updated. Use the header location url to get the persisted reservation object.
+            headers:
+              location:
+                description: "Relative URL of the persisted reservation."
+                type: string
+                required: true
+                example: /reservation/123456
+            body: null                            
     post:
       is: [client-id-required]
       description: Persists a reservation copy
