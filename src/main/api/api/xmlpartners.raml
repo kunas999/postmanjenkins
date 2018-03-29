@@ -1,0 +1,84 @@
+/oagLocation:
+    description: check if the given EXTENDED_OAG code is in LOC collection, if so retreive EXTENDED_OAG
+    get:
+      is: [client-id-required]
+      description: check if the given EXTENDED_OAG code is in LOC collection, if so retreive EXTENDED_OAG.
+      queryParameters:  
+           oagCode:
+             displayName: OAG code for location
+             type: string
+             description: The OAG code for which EXTENDED_OAG is needed
+             example: "NGO"
+             required: true               
+      responses:
+          200:
+            body:    
+          404: 
+            description: No location record found in the source system for the given search criteria
+            body:
+              schema: error 
+/extendedOagLocation:
+    description: check if the given EXTENDED_OAG code is in LOC collection, if so retreive OAG
+    get:
+      is: [client-id-required]
+      description: check if the given EXTENDED_OAG code is in LOC collection, if so retreive OAG.
+      queryParameters:  
+           extendedOagCode:
+             displayName: EXTENDED_OAG code for location
+             type: string
+             description: The EXTENDED_OAG code for which OAG is needed
+             example: "NGO"
+             required: true               
+      responses:
+          200:
+            body:    
+          404: 
+            description: No location record found in the source system for the given search criteria
+            body:
+              schema: error
+/rateTypeOta:
+    description: check if the given OTA_VALUE code is in VAS-RMS collection, if so retreive GDDRateIdentification
+    post:
+      is: [client-id-required]
+      description: check if the given OTA_VALUE code is in VAS-RMS collection, if so retreive GDDRateIdentification.
+      body:
+        application/json:                                       
+      responses:
+          200:
+            body:    
+          404: 
+            description: No location record found in the source system for the given search criteria
+            body:
+              schema: error     
+              
+/rateTypeGdd:
+    description: check if the given GDDRateIdentification code is in VAS-RMS collection, if so retreive OTA_VALUE
+    get:
+      is: [client-id-required]
+      description: check if the given GDDRateIdentification code is in VAS-RMS collection, if so retreive OTA_VALUE.
+      queryParameters:  
+           locationCode:
+             displayName: OTA_VALUE code for equipment type
+             type: string
+             description: The OTA_VALUE code for which GDDRateIdentification is needed
+             example: "NGO"
+             required: true   
+           gddIdentificationCode:
+             displayName: OTA_VALUE code for equipment type
+             type: string
+             description: The OTA_VALUE code for which GDDRateIdentification is needed
+             example: "NGO"
+             required: true  
+           rateType:
+             displayName: OTA_VALUE code for equipment type
+             type: string
+             description: The OTA_VALUE code for which GDDRateIdentification is needed
+             example: "NGO"
+             required: true              
+      responses:
+          200:
+            body:    
+          404: 
+            description: No location record found in the source system for the given search criteria
+            body:
+              schema: error                                    

@@ -1,57 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
-
-    <flow name="retrieveCarClassFlow">
-        <async doc:name="startAsyncLogging">
-            <dw:transform-message doc:name="createauditLoggingVar">
-                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
-%output application/java
----
-{
-   "uuid": sessionVars.uuid default null,
-   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
-   "flowStep": "start", //It is used to identify the step for logging start/ end
-   "version":"1.0",  
-   "transactionId": inboundProperties."http.query.params".sippCode default "sippCodeLookUp", //Unique messageId ID eg: customer email address
-   "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "ramSippLookup" 
-}]]></dw:set-variable>
-            </dw:transform-message>
-            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
-        </async>
-        <dw:transform-message doc:name="queryParamToDB">
-            <dw:set-payload><![CDATA[%dw 1.0
-%output application/java
----
-{
-	("SIPP": inboundProperties."http.query.params".sippCode when inboundProperties."http.query.params".sippCode != null otherwise ""),
-	("Country": inboundProperties."http.query.params".countryCode when inboundProperties."http.query.params".countryCode != null otherwise "")
-}]]></dw:set-payload>
-        </dw:transform-message>
-
-        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRamCarClassUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
-        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
-        <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
-            <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
-            <dw:set-payload><![CDATA[%dw 1.0
-%output application/json
----
-{
-	carClass: payload.Car_Class[0]
-}]]></dw:set-payload>
-        </dw:transform-message>         
-    </flow>
-    
-    <flow name="retrieveLocationFlow">
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <flow name="retExtendedOagFlow">
         <async doc:name="startAsyncLogging">
             <dw:transform-message doc:name="createauditLoggingVar">
                 <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
@@ -74,12 +30,12 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/java
 ---
 {
-	("EXTENDED_OAG": inboundProperties."http.query.params".oagCode when inboundProperties."http.query.params".oagCode != null otherwise "")
+	("OAG": inboundProperties."http.query.params".oagCode when inboundProperties."http.query.params".oagCode != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
+		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
@@ -87,12 +43,12 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/json
 ---
 {
-	locCode: payload.RAM_LOCATION_ID[0]
+	extendedOag: payload[0].EXTENDED_OAG
 }]]></dw:set-payload>
         </dw:transform-message>    
     </flow>
-    
-    <flow name="retrieveChargeTypeFlow">
+  
+    <flow name="retRateTypeOtaFlow">
         <async doc:name="startAsyncLogging">
             <dw:transform-message doc:name="createauditLoggingVar">
                 <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
@@ -103,9 +59,9 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
    "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
    "flowStep": "start", //It is used to identify the step for logging start/ end
    "version":"1.0",  
-   "transactionId": inboundProperties."http.query.params".sovosCode default "gddChargeTypeLookUp", //Unique messageId ID eg: customer email address
+   "transactionId": inboundProperties."http.query.params".oagCode default "locCodeLookUp", //Unique messageId ID eg: customer email address
    "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "ramChargeTypeLookup" 
+   "eventName": "ramLocLookup" 
 }]]></dw:set-variable>
             </dw:transform-message>
             <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
@@ -115,12 +71,14 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/java
 ---
 {
-	("SOVOS_CODE": inboundProperties."http.query.params".sovosCode when inboundProperties."http.query.params".sovosCode != null otherwise "")
+	("LocationCode": payload.locationCode when payload.locationCode != null otherwise ""),
+	("RateType": payload.rateType when payload.rateType != null otherwise ""),
+	("OTAValue": payload.otaValue when payload.otaValue != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRamChargeIndUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
+		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
@@ -128,8 +86,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/json
 ---
 {
-	gddChargeTypeCode: payload.GDD_CODE[0]
+	gddCode: payload[0].GDDRateIdentification
 }]]></dw:set-payload>
-        </dw:transform-message>       
-    </flow>
+        </dw:transform-message>    
+  </flow>         
 </mule>

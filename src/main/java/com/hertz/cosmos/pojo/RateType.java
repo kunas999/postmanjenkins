@@ -1,8 +1,8 @@
 package com.hertz.cosmos.pojo;
 
-public class RamLocations extends AbstractCosmosPojo {
+public class RateType extends AbstractCosmosPojo {
 
-	public RamLocations(String databaseName, String collectionId) {
+	public RateType(String databaseName, String collectionId) {
 		super(databaseName, collectionId);
 	}
 
