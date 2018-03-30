@@ -46,7 +46,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/json
 ---
 {
-	carClass: payload.Car_Class[0]
+	carClass: payload[0].Car_Class
 }]]></dw:set-payload>
         </dw:transform-message>         
     </flow>
@@ -87,7 +87,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/json
 ---
 {
-	locCode: payload.RAM_LOCATION_ID[0]
+	locCode: payload[0].RAM_LOCATION_ID
 }]]></dw:set-payload>
         </dw:transform-message>    
     </flow>
@@ -115,20 +115,19 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/java
 ---
 {
-	("SOVOS_CODE": inboundProperties."http.query.params".sovosCode when inboundProperties."http.query.params".sovosCode != null otherwise "")
+	("OTAValue": inboundProperties."http.query.params".otaValue when inboundProperties."http.query.params".otaValue != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRamChargeIndUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
+		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
-            <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
-	gddChargeTypeCode: payload.GDD_CODE[0]
+	gddChargeTypeCode: payload[0].GDDRateIdentification
 }]]></dw:set-payload>
         </dw:transform-message>       
     </flow>

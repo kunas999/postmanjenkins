@@ -85,7 +85,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		<flow-ref name="retRateTypeOtaFlow" doc:name="retRateTypeOtaFlow" />
 	</flow>	
 	
-	<flow name="get:/xmlPartners/rateTypeGdd:api-config">
+	<flow name="post:/xmlPartners/rateTypeGdd:api-config">
 		<flow-ref name="retRateTypeGddFlow" doc:name="retRateTypeGddFlow" />
 	</flow>					
 		

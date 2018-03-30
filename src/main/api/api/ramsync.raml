@@ -49,15 +49,15 @@
               schema: error    
               
 /chargeIndicator:
-    description: check if the given SOVOS_CODE is in TaxFee collection, if so retreive GDD_CODE
+    description: check if the given OTAValue is in VAS-RMS collection, if so retreive GDD_CODE
     get:
       is: [client-id-required]
-      description: check if the given SOVOS_CODE is in TaxFee collection, if so retreive GDD_CODE.
+      description: check if the given OTAValue is in VAS-RMS collection, if so retreive GDD_CODE.
       queryParameters:  
-           sovosCode:
-             displayName: SOVOS_CODE for charge type
+           otaValue:
+             displayName: OTAValue for charge type
              type: string
-             description: The SOVOS_CODE for which GDD_CODE is needed
+             description: The OTAValue for which GDD_CODE is needed
              example: "ACFR"
              required: true               
       responses:

@@ -2,10 +2,10 @@
 
 <mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.8.5"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
     <flow name="retOagFlow">
@@ -36,9 +36,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="Invoke"/>
+		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollection"/>
         <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
-        <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
+        <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
@@ -72,16 +72,16 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/java
 ---
 {
-	("LocationCode": inboundProperties."http.query.params".locationCode when inboundProperties."http.query.params".locationCode != null otherwise ""),
-	("RateType": inboundProperties."http.query.params".rateType when inboundProperties."http.query.params".rateType != null otherwise ""),
-	("GDDRateIdentification": inboundProperties."http.query.params".gddIdentificationCode when inboundProperties."http.query.params".gddIdentificationCode != null otherwise "")
+	("LocationCode": payload.locationCode when payload.locationCode != null otherwise ""),
+	("RateType": payload.rateType when payload.rateType != null otherwise ""),
+	("GDDRateIdentification": payload.gddIdentificationCode when payload.gddIdentificationCode != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="Invoke"/>
+		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVasCollection"/>
         <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
-        <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
+        <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json

@@ -53,28 +53,11 @@
               
 /rateTypeGdd:
     description: check if the given GDDRateIdentification code is in VAS-RMS collection, if so retreive OTA_VALUE
-    get:
+    post:
       is: [client-id-required]
       description: check if the given GDDRateIdentification code is in VAS-RMS collection, if so retreive OTA_VALUE.
-      queryParameters:  
-           locationCode:
-             displayName: OTA_VALUE code for equipment type
-             type: string
-             description: The OTA_VALUE code for which GDDRateIdentification is needed
-             example: "NGO"
-             required: true   
-           gddIdentificationCode:
-             displayName: OTA_VALUE code for equipment type
-             type: string
-             description: The OTA_VALUE code for which GDDRateIdentification is needed
-             example: "NGO"
-             required: true  
-           rateType:
-             displayName: OTA_VALUE code for equipment type
-             type: string
-             description: The OTA_VALUE code for which GDDRateIdentification is needed
-             example: "NGO"
-             required: true              
+      body:
+        application/json:             
       responses:
           200:
             body:    
