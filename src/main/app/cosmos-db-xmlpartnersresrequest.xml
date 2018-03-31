@@ -79,14 +79,14 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
 		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVasCollectionRQ"/>
-        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
+        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
-	gddCode: payload[0].GDDRateIdentification
+	gddCode: payload.GDDRateIdentification
 }]]></dw:set-payload>
         </dw:transform-message>    
   </flow>         
