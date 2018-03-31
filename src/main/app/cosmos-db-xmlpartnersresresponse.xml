@@ -35,9 +35,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 }]]></dw:set-payload>
         </dw:transform-message>
 
-        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
+        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
 		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollection"/>
-        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
+        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
@@ -78,9 +78,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 }]]></dw:set-payload>
         </dw:transform-message>
 
-        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
+        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
 		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVasCollection"/>
-        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
+        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
