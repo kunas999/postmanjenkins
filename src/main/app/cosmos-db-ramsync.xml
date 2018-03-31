@@ -10,6 +10,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 
     <flow name="retrieveCarClassFlow">
+        <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
         <async doc:name="startAsyncLogging">
             <dw:transform-message doc:name="createauditLoggingVar">
                 <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
@@ -52,6 +53,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
     </flow>
     
     <flow name="retrieveLocationFlow">
+        <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
         <async doc:name="startAsyncLogging">
             <dw:transform-message doc:name="createauditLoggingVar">
                 <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
@@ -93,6 +95,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
     </flow>
     
     <flow name="retrieveChargeTypeFlow">
+        <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
         <async doc:name="startAsyncLogging">
             <dw:transform-message doc:name="createauditLoggingVar">
                 <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
@@ -115,11 +118,11 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/java
 ---
 {
-	"OTAValue": inboundProperties."http.query.params".otaValue when inboundProperties."http.query.params".otaValue != null otherwise ""
+"OTAValue": inboundProperties."http.query.params".otaValue when inboundProperties."http.query.params".otaValue != null otherwise ""
 }]]></dw:set-payload>
         </dw:transform-message>
 
-        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
+        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
 		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeRmsVasCollection"/>
         <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
