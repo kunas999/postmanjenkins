@@ -72,9 +72,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/java
 ---
 {
-	("LocationCode": payload.locationCode when payload.locationCode != null otherwise ""),
-	("RateType": payload.rateType when payload.rateType != null otherwise ""),
-	("GDDRateIdentification": payload.gddIdentificationCode when payload.gddIdentificationCode != null otherwise "")
+	"LocationCode": payload.locationCode when payload.locationCode != null otherwise "",
+	"RateType": payload.rateType when payload.rateType != null otherwise "",
+	"GDDRateIdentification": payload.gddIdentificationCode when payload.gddIdentificationCode != null otherwise ""
 }]]></dw:set-payload>
         </dw:transform-message>
 
