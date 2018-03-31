@@ -20,9 +20,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
    "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
    "flowStep": "start", //It is used to identify the step for logging start/ end
    "version":"1.0",  
-   "transactionId": inboundProperties."http.query.params".oagCode default "locCodeLookUp", //Unique messageId ID eg: customer email address
+   "transactionId": inboundProperties."http.query.params".extendedOagCode default "locCodeLookup", //Unique messageId ID eg: customer email address
    "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "ramLocLookup" 
+   "eventName": "LocationLookup" 
 }]]></dw:set-variable>
             </dw:transform-message>
             <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
@@ -62,9 +62,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
    "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
    "flowStep": "start", //It is used to identify the step for logging start/ end
    "version":"1.0",  
-   "transactionId": inboundProperties."http.query.params".oagCode default "locCodeLookUp", //Unique messageId ID eg: customer email address
+   "transactionId": payload.gddIdentificationCode default "otaLookup",
    "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "ramLocLookup" 
+   "eventName": "otaValueLookup" 
 }]]></dw:set-variable>
             </dw:transform-message>
             <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>

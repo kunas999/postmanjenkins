@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
    "version":"1.0",  
    "transactionId": inboundProperties."http.query.params".oagCode default "locCodeLookUp", //Unique messageId ID eg: customer email address
    "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "ramLocLookup" 
+   "eventName": "locationLookup" 
 }]]></dw:set-variable>
             </dw:transform-message>
             <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
@@ -37,7 +37,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 
         <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
 		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollectionRQ"/>
-        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
+        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
@@ -61,9 +61,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
    "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
    "flowStep": "start", //It is used to identify the step for logging start/ end
    "version":"1.0",  
-   "transactionId": inboundProperties."http.query.params".oagCode default "locCodeLookUp", //Unique messageId ID eg: customer email address
+   "transactionId": payload.otaValue default "gddCodeLookUp", //Unique messageId ID eg: customer email address
    "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "ramLocLookup" 
+   "eventName": "gddCodeLookup" 
 }]]></dw:set-variable>
             </dw:transform-message>
             <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
@@ -73,7 +73,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/java
 ---
 {
-	"OTAValue": payload.otaValue when payload.otaValue != null otherwise ""
+	("OTAValue": payload.otaValue when payload.otaValue != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
 
@@ -86,7 +86,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/json
 ---
 {
-	gddCode: payload.GDDRateIdentification
+	gddCode: payload[0].GDDRateIdentification
 }]]></dw:set-payload>
         </dw:transform-message>    
   </flow>         
