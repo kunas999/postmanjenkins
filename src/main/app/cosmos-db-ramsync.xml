@@ -119,7 +119,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/java
 ---
 {
-	"OTAValue": inboundProperties."http.query.params".otaValue when inboundProperties."http.query.params".otaValue != null otherwise ""
+	"OTAValue": inboundProperties."http.query.params".otaValue as :number when inboundProperties."http.query.params".otaValue != null otherwise ""
 }]]></dw:set-payload>
         </dw:transform-message>
 
