@@ -9,6 +9,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
     <flow name="cosmos-retrieveVASbyTargetPOVCode-flow">
+        <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
         <async doc:name="startAsyncLogging">
             <dw:transform-message doc:name="createauditLoggingVar">
                 <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
