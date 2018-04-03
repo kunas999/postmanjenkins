@@ -32,7 +32,8 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/java
 ---
 {
-	("EXTENDED_OAG": inboundProperties."http.query.params".extendedOagCode when inboundProperties."http.query.params".extendedOagCode != null otherwise "")
+	("EXTENDED_OAG": inboundProperties."http.query.params".extendedOagCode when inboundProperties."http.query.params".extendedOagCode != null otherwise ""),
+	("BRAND": inboundProperties."http.query.params".brand when inboundProperties."http.query.params".brand != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
 

@@ -74,7 +74,7 @@ public class ReservationsConnectivityTest {
         
 	}
 	
-	@Test
+/*	@Test
 	public void shouldFind() throws Exception {
 						
 		cosmosReservationUtil.save(IOUtils.getResourceAsString("data/reservations/res3.json", ReservationsConnectivityTest.class));						
@@ -88,6 +88,6 @@ public class ReservationsConnectivityTest {
 		
         logger.info("results: {}", results.size());
         
-	}
+	}*/
 	
 }

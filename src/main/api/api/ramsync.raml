@@ -37,6 +37,12 @@
              type: string
              description: The EXTENDED_OAG code for which RAM_LOCATION_ID is needed
              example: "NGOC03"
+             required: true
+           brand:
+             displayName: BRAND code to get unique location
+             type: string
+             description: The BRAND code for which RAM_LOCATION_ID is needed
+             example: "Hertz"
              required: true               
       responses:
           200:
@@ -49,16 +55,16 @@
               schema: error    
               
 /chargeIndicator:
-    description: check if the given OTAValue is in VAS-RMS collection, if so retreive GDD_CODE
+    description: check if the given OTAValue is in rmsvasxref collection, if so retreive GDD_CODE
     get:
       is: [client-id-required]
-      description: check if the given OTAValue is in VAS-RMS collection, if so retreive GDD_CODE.
+      description: check if the given OTAValue is in rmsvasxref collection, if so retreive GDD_CODE.
       queryParameters:  
            otaValue:
              displayName: OTAValue for charge type
-             type: string
+             type: number
              description: The OTAValue for which GDD_CODE is needed
-             example: "ACFR"
+             example: 7
              required: true               
       responses:
           200:
@@ -66,6 +72,6 @@
               #schema: flightschedule
               #example: !include example/flightschedule/flightschedulelist.json
           404: 
-            description: No car class record found in the source system for the given search criteria
+            description: No record found in the source system for the given search criteria
             body:
               schema: error                        

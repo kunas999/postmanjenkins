@@ -39,7 +39,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRamCarClassUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeSippCollection"/>
+		<invoke method="findBy" object-ref="cosmosRamCarClassUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeSippCollection" doc:name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
@@ -76,12 +76,13 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/java
 ---
 {
-	("EXTENDED_OAG": inboundProperties."http.query.params".oagCode when inboundProperties."http.query.params".oagCode != null otherwise "")
+	("EXTENDED_OAG": inboundProperties."http.query.params".oagCode when inboundProperties."http.query.params".oagCode != null otherwise ""),
+	("BRAND": inboundProperties."http.query.params".brand when inboundProperties."http.query.params".brand != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocationCollection"/>
+		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocationCollection" doc:name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
@@ -118,12 +119,12 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %output application/java
 ---
 {
-"OTAValue": inboundProperties."http.query.params".otaValue when inboundProperties."http.query.params".otaValue != null otherwise ""
+	"OTAValue": inboundProperties."http.query.params".otaValue when inboundProperties."http.query.params".otaValue != null otherwise ""
 }]]></dw:set-payload>
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeRmsVasCollection"/>
+		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeRmsVasCollection" doc:name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse" metadata:id="fd706803-48cd-4043-9f58-96ed646d8707">
             <dw:set-payload><![CDATA[%dw 1.0

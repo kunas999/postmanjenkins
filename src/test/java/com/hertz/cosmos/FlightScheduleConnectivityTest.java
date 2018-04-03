@@ -72,7 +72,7 @@ public class FlightScheduleConnectivityTest {
         
 	}
 	
-	@Test
+/*	@Test
 	public void shouldFindBy() throws Exception {
 						
 		cosmosFlightScheduleUtil.save(IOUtils.getResourceAsString("data/flightschedule/flight2.json", FlightScheduleConnectivityTest.class));						
@@ -88,6 +88,6 @@ public class FlightScheduleConnectivityTest {
 		
         logger.info("results: {}", results.size());
         
-	}	
+	}*/	
 	
 }
