@@ -129,7 +129,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/json
 ---
 {
-	gddCode: payload[0].GDDRateIdentification ++ " | " ++ payload[0].Description
+	gddCode: payload[0].GDDRateIdentification ++ "|" ++ payload[0].Description
 }]]></dw:set-payload>
         </dw:transform-message>    
   </flow>          
