@@ -36,8 +36,8 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollectionRQ"/>
-        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
+		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollectionRQ" doc:name="Invoke"/>
+        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
@@ -77,9 +77,9 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 }]]></dw:set-payload>
         </dw:transform-message>
 
-        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVasCollectionRQ"/>
-        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
+        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
+		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVasCollectionRQ" doc:name="Invoke"/>
+        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
@@ -89,5 +89,48 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 	gddCode: payload[0].GDDRateIdentification
 }]]></dw:set-payload>
         </dw:transform-message>    
-  </flow>         
+  </flow>  
+  
+    <flow name="retRateTypeRateIdFlow">
+        <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
+        <async doc:name="startAsyncLogging">
+            <dw:transform-message doc:name="createauditLoggingVar">
+                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
+%output application/java
+---
+{
+   "uuid": sessionVars.uuid default null,
+   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
+   "flowStep": "start", //It is used to identify the step for logging start/ end
+   "version":"1.0",  
+   "transactionId": payload.otaValue default "gddCodeLookUp", //Unique messageId ID eg: customer email address
+   "message":"", //It is used to store the detailed descriptive text about the event or message
+   "eventName": "gddCodeLookup" 
+}]]></dw:set-variable>
+            </dw:transform-message>
+            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
+        </async>
+        <dw:transform-message doc:name="queryParamToDB">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	("LocationCode": payload.location when payload.location != null otherwise ""),
+	("RateIdentification": payload.rateId when payload.rateId != null otherwise "")
+}]]></dw:set-payload>
+        </dw:transform-message>
+
+        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
+		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeRmsVasCollectionRQ" doc:name="Invoke"/>
+        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
+        <dw:transform-message doc:name="transformResponse">
+            <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	gddCode: payload[0].GDDRateIdentification ++ " | " ++ payload[0].Description
+}]]></dw:set-payload>
+        </dw:transform-message>    
+  </flow>          
 </mule>

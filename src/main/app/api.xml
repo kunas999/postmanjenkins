@@ -73,20 +73,24 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		<flow-ref name="retrieveChargeTypeFlow" doc:name="retrieveChargeTypeFlow" />
 	</flow>	
 		
-	<flow name="get:/xmlPartners/oagLocation:api-config">
+	<flow name="get:/reservation/oagLocation:api-config">
 		<flow-ref name="retExtendedOagFlow" doc:name="retExtendedOagFlow" />
 	</flow>	
 	
-	<flow name="get:/xmlPartners/extendedOagLocation:api-config">
+	<flow name="get:/reservation/extendedOagLocation:api-config">
 		<flow-ref name="retOagFlow" doc:name="retOagFlow" />
 	</flow>	
 	
-	<flow name="post:/xmlPartners/rateTypeOta:api-config">
+	<flow name="post:/reservation/rateTypeOta:api-config">
 		<flow-ref name="retRateTypeOtaFlow" doc:name="retRateTypeOtaFlow" />
 	</flow>	
 	
-	<flow name="post:/xmlPartners/rateTypeGdd:api-config">
+	<flow name="post:/reservation/rateTypeGdd:api-config">
 		<flow-ref name="retRateTypeGddFlow" doc:name="retRateTypeGddFlow" />
-	</flow>					
+	</flow>
+
+	<flow name="post:/reservation/rateTypeRateId:api-config">
+		<flow-ref name="retRateTypeRateIdFlow" doc:name="retRateTypeRateIdFlow" />
+	</flow>						
 		
 </mule>
