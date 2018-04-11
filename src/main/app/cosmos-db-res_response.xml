@@ -38,7 +38,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollection"/>
+		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollection" doc:name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
@@ -76,13 +76,14 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 ---
 {
 	"LocationCode": payload.locationCode when payload.locationCode != null otherwise "",
+	"Brand": payload.brand when payload.brand != null otherwise "",
 	"RateType": payload.rateType when payload.rateType != null otherwise "",
 	"GDDRateIdentification": payload.gddIdentificationCode when payload.gddIdentificationCode != null otherwise ""
 }]]></dw:set-payload>
         </dw:transform-message>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVasCollection"/>
+		<invoke method="findBy" object-ref="cosmosRateTypeUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVasCollection" doc:name="Invoke"/>
         <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
         <dw:transform-message doc:name="transformResponse">
             <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
