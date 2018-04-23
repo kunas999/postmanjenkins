@@ -116,6 +116,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 ---
 {
 	("LocationCode": payload.location when payload.location != null otherwise ""),
+	("Brand": payload.brand when payload.brand != null otherwise ""),
 	("RateIdentification": payload.rateId when payload.rateId != null otherwise "")
 }]]></dw:set-payload>
         </dw:transform-message>
