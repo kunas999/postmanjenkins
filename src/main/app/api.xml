@@ -93,4 +93,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		<flow-ref name="retRateTypeRateIdFlow" doc:name="retRateTypeRateIdFlow" />
 	</flow>						
 		
+	<flow name="get:/customerLocation/retrieveStateCode:api-config">
+		<flow-ref name="retrieveStateCodeFlow" doc:name="retrieveStateCodeFlow" />
+	</flow>			
+		
 </mule>

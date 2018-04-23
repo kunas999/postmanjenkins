@@ -35,7 +35,7 @@ doc:name="Secure Property Placeholder" ignoreResourceNotFound="true" ignoreUnres
 	<!--  All the mule applications will be https one-way ssl enabled -->
   	
     <apikit:config name="api-config" raml="api.raml" consoleEnabled="false" doc:name="Router" keepRamlBaseUri="false">
-        <apikit:flow-mapping resource="/customerLocation/retrieveStateCode" action="get" flow-ref="retrieveStateCodeFlow"/>
+
     </apikit:config>
     <api-platform-gw:api apiName="${api-autodiscovery-name}" version="${api-autodiscovery-version}" flowRef="api-main" create="true" apikitRef="api-config" doc:name="API Autodiscovery"/>
    
