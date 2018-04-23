@@ -1,0 +1,18 @@
+/retrieveStateCode:
+    description: check if the given OAG code is in LOC collection, if so retreive EXTENDED_OAG
+    get:
+      is: [client-id-required]
+      description: check if the given ISO_SUBDIVISION_NAME is in mdmlocxref collection, if so retreive ISO_SUBDIVISION_ALPHA2_CODE.
+      queryParameters:  
+           subdivision:
+             displayName: state name in full form
+             type: string
+             example: "Florida"
+             required: true               
+      responses:
+          200:
+            body:    
+          404: 
+            description: No record found in the source system for the given search criteria
+            body:
+              schema: error 

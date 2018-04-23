@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+    <flow name="retrieveStateCodeFlow">
+        <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
+        <async doc:name="startAsyncLogging">
+            <dw:transform-message doc:name="createauditLoggingVar">
+                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
+%output application/java
+---
+{
+   "uuid": sessionVars.uuid default null,
+   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
+   "flowStep": "start", //It is used to identify the step for logging start/ end
+   "version":"1.0",  
+   "transactionId": inboundProperties."http.query.params".oagCode default "locCodeLookUp", //Unique messageId ID eg: customer email address
+   "message":"", //It is used to store the detailed descriptive text about the event or message
+   "eventName": "ramLocLookup" 
+}]]></dw:set-variable>
+            </dw:transform-message>
+            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
+        </async>
+        <dw:transform-message doc:name="queryParamToDB">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	("ISO_SUBDIVISION_NAME": inboundProperties."http.query.params".subdivision when inboundProperties."http.query.params".subdivision != null otherwise "")
+}]]></dw:set-payload>
+        </dw:transform-message>
+
+        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>				
+		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollection_State" doc:name="Invoke"/>
+        <logger message="Response from CosmosDB: #[payload]" level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="transformResponse">
+            <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	stateCode: payload[0].ISO_SUBDIVISION_ALPHA2_CODE
+}]]></dw:set-payload>
+        </dw:transform-message>    
+    </flow>
+</mule>
