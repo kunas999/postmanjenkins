@@ -45,7 +45,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/json
 ---
 {
-	stateCode: payload[0].ISO_SUBDIVISION_ALPHA2_CODE
+	stateCode: payload[0].ISO_SUBDIVISION_CODE_SHORT
 }]]></dw:set-payload>
         </dw:transform-message>    
     </flow>
