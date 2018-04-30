@@ -8,7 +8,7 @@ public class Locations extends AbstractCosmosPojo {
 
 	@Override
 	public String getAllQuery() {			
-		return "SELECT TOP 10 * FROM " + getCollectionId();
+		return "SELECT TOP 10 *  FROM " + getCollectionId();
 	}	
 	
 }

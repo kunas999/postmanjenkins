@@ -165,7 +165,7 @@
 		<dependency>
 			<groupId>com.hertz.cosmosdb</groupId>
 			<artifactId>cosmos-db-mapping</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.6</version>
 		</dependency>
 		<!-- junit testing -->
 		<dependency>
@@ -237,13 +237,19 @@
             <artifactId>mule-module-security-encryption</artifactId>
             <version>1.6.2</version>
         </dependency>
+    <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-file</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 	<!-- <properties> <munit.version>1.3.4</munit.version> <mule.munit.support.version>3.8.4</mule.munit.support.version> 
 		</properties> -->
 <properties>
         <munit.version>1.3.7</munit.version>
-    <mule.munit.support.version>3.9.1</mule.munit.support.version>
-    <mule.version>3.9.0</mule.version>
+    <mule.munit.support.version>3.8.6</mule.munit.support.version>
+    <mule.version>3.8.5</mule.version>
     </properties>
 </project>
