@@ -10,14 +10,15 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+
 	<flow name="api-main">
 		<http:listener config-ref="global-api-httpListenerConfig"
 			path="${api.path}" doc:name="HTTP" />
 		<set-session-variable variableName="uuid"
 			value="#[java.util.UUID.randomUUID().toString()]" doc:name="Set UUID Session Variable" />
 		<apikit:router config-ref="api-config" doc:name="APIkit Router" />
-		<exception-strategy ref="apiChoiceExceptionStrategy"
-			doc:name="Reference Exception Strategy" />
+        <exception-strategy ref="apiChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+
 	</flow>
 	<flow name="api-console">
 		<http:listener config-ref="global-api-httpListenerConfig"
@@ -35,26 +36,26 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		</choice>
 	</flow>
 	<flow name="get:/reservation:api-config">
-		<flow-ref name="cosmos-reservation-findBy-flow" doc:name="Flow Reference" />
+		<flow-ref name="cosmos-reservation-findBy-flow" doc:name="cosmos-reservation-findBy-flow" />
 	</flow>
 	<flow name="get:/reservation/{id}:api-config">
-		<flow-ref name="cosmos-reservation-findById-flow" doc:name="Flow Reference" />
+		<flow-ref name="cosmos-reservation-findById-flow" doc:name="cosmos-reservation-findById-flow" />
 	</flow>
 	<flow name="put:/reservation/{id}:api-config">
-		<flow-ref name="cosmos-reservation-udpate-flow" doc:name="Flow Reference" />
+		<flow-ref name="cosmos-reservation-udpate-flow" doc:name="cosmos-reservation-udpate-flow" />
 	</flow>
 	<flow name="post:/reservation:api-config">
-		<flow-ref name="cosmos-reservation-save-flow" doc:name="Flow Reference" />
+		<flow-ref name="cosmos-reservation-save-flow" doc:name="cosmos-reservation-save-flow" />
 	</flow>
 	<flow name="get:/flightschedule:api-config">
-		<flow-ref name="cosmos-flightschedule-findBy-flow" doc:name="Flow Reference" />
+		<flow-ref name="cosmos-flightschedule-findBy-flow" doc:name="cosmos-flightschedule-findBy-flow" />
 	</flow>
 	<flow name="get:/flightschedule/{id}:api-config">
 		<flow-ref name="cosmos-flightschedule-findById-flow"
-			doc:name="Flow Reference" />
+			doc:name="cosmos-flightschedule-findById-flow" />
 	</flow>
 	<flow name="post:/flightschedule:api-config">
-		<flow-ref name="cosmos-flightschedule-save-flow" doc:name="Flow Reference" />
+		<flow-ref name="cosmos-flightschedule-save-flow" doc:name="cosmos-flightschedule-save-flow" />
 	</flow>
 	
 	<flow name="get:/valueAddedServices:api-config">
@@ -95,6 +96,9 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		
 	<flow name="get:/customerLocation/retrieveStateCode:api-config">
 		<flow-ref name="retrieveStateCodeFlow" doc:name="retrieveStateCodeFlow" />
-	</flow>			
+	</flow>
+    <flow name="post:/vas:api-config">
+        <flow-ref name="cosmos-db-rms-flow" doc:name="cosmos-db-rms-flow"/>
+    </flow>			
 		
 </mule>

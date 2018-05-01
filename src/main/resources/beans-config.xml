@@ -84,5 +84,29 @@
  		<constructor-arg name="databaseName" value="${cosmosdb.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.ratetype.collection.name}" />
  	</bean>   	 	 	 		 		
+
+	<!-- Bean for insert/update rms operation -->
+    <bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosRmsUtil" depends-on="rmsPojo" scope="prototype">
+		<property name="endpoint" value="${cosmos.rms.endpoint}" />
+ 		<property name="key" value="${cosmosdb.rms.key}" />
+ 		<property name="pojo" ref="rmsPojo" /> 
+ 	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.pojo.Rms" id="rmsPojo" depends-on="Secure_Property_Placeholder-cosmos">
+ 		<constructor-arg name="databaseName" value="${cosmos.rms.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.rms.collection.name}" />
+ 	</bean>
+
+	<!-- Bean for delete operation -->
+    <bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosRmsDelUtil" depends-on="rmsDelPojo" scope="prototype">
+		<property name="endpoint" value="${cosmos.rms.endpoint}" />
+ 		<property name="key" value="${cosmosdb.rms.key}" />
+ 		<property name="pojo" ref="rmsDelPojo" />
+ 	</bean>
+ 	
+ 	<bean class="com.hertz.cosmos.pojo.RmsDel" id="rmsDelPojo" depends-on="Secure_Property_Placeholder-cosmos">
+ 		<constructor-arg name="databaseName" value="${cosmos.rms.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.rms.collection.name}" />
+ 	</bean>
    
 </beans>
