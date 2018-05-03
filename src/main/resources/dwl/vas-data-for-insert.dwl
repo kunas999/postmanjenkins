@@ -9,5 +9,5 @@
         Description: payload.Description,
         GDDRateIdentification: payload.GDDRateIdentification,
         OTAValue: payload.OTAValue,
-        CMDRValue: payload.CMDRValue
+        CMDRValue: payload.CMDRValue[0 .. 29]
 }

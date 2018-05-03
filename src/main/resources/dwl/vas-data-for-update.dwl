@@ -9,6 +9,6 @@
         RateType: payload.RateType,
         Description: payload.Description,
         GDDRateIdentification: payload.GDDRateIdentification,
-        OTAValue: 1,
-        CMDRValue: payload.CMDRValue
+        OTAValue: payload.OTAValue,
+        CMDRValue: payload.CMDRValue[0..29]
 }

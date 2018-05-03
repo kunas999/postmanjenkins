@@ -91,7 +91,9 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             </dw:transform-message>
 
         </catch-exception-strategy>
-	</flow>
+
+
+    </flow>
     <flow name="cosmos-db-rms-delete-flow">
         <dw:transform-message doc:name="Transform Message">
             <dw:set-payload resource="classpath:dwl/vas-data-for-delete.dwl"/>
@@ -127,6 +129,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             <dw:set-payload resource="classpath:dwl/vas-data-for-update.dwl"/>
 
         </dw:transform-message>
+        <logger message="Update record payload ::  #[payload:java.lang.String]" level="INFO" doc:name="Logger"/>
     	<invoke method="save" object-ref="cosmosRmsUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="updateRms" name="updateRms"/>
         <logger message="Response after update :#[payload:java.lang.String]" level="INFO" doc:name="Log-UpdateResponse" />
         <set-payload value="{
