@@ -29,177 +29,101 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         <enricher target="#[flowVars.record]" doc:name="Message Enricher">
             <processor-chain doc:name="Processor Chain">
                 <dw:transform-message doc:name="Transform Message">
-                    <dw:set-payload><![CDATA[%dw 1.0
-%output application/java
----
-{
-        LocationCode: payload.LocationCode,
-        Brand: payload.Brand,
-        RateIdentification: payload.RateIdentification
-}
-]]></dw:set-payload>
+                    <dw:set-payload resource="classpath:dwl/vas-data-forFindBy.dwl"/>
+
                 </dw:transform-message>
                 <invoke name="cosmosFind" object-ref="cosmosRmsUtil" method="findBy" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" doc:name="cosmosFind"/>
             </processor-chain>
         </enricher>
 
-        <set-variable variableName="dbOperation" value="#[dw('payload.InsertDeleteCode')]" doc:name="dbOperation"/>
-
         <logger message="findBySize :: #[flowVars.record.size()]" level="INFO" doc:name="Log-dataSize"/>
         <choice doc:name="checkDBOperation">
-            <when expression="#[(flowVars.dbOperation=='D') &amp;&amp; (flowVars.record.size()==1)]">
+            <when expression="#[dw('payload.InsertDeleteCode==&quot;D&quot;') &amp;&amp; (flowVars.record.size()==1)]">
                 <logger message="Invoking delete flow" level="INFO" doc:name="Log-DelFlow"/>
                 <flow-ref name="cosmos-db-rms-delete-flow" doc:name="cosmos-db-rms-delete-flow"/>
             </when>
-            <when expression="#[(flowVars.dbOperation=='I') &amp;&amp; (flowVars.record.size()==1)]">
+            <when expression="#[dw('payload.InsertDeleteCode==&quot;I&quot;') &amp;&amp; (flowVars.record.size()==1)]">
                 <logger message="Calling Update Flow" level="INFO" doc:name="Log-Update flow"/>
                 <flow-ref name="cosmos-db-rms-update-flow" doc:name="cosmos-db-rms-update-flow"/>
             </when>
-            <when expression="#[(flowVars.dbOperation=='I') &amp;&amp; (flowVars.record.size()==0)]">
+            <when expression="#[dw('payload.InsertDeleteCode==&quot;I&quot;') &amp;&amp; (flowVars.record.size()==0)]">
                 <logger message="Invoking insert flow" level="INFO" doc:name="Log-insert flow"/>
 
                 <flow-ref name="cosmos-db-rms-insert-flow" doc:name="cosmos-db-rms-insert-flow"/>
             </when>
-            <when expression="#[(flowVars.dbOperation=='D') &amp;&amp; (flowVars.record.size()==0)]">
+            <when expression="#[dw('payload.InsertDeleteCode==&quot;D&quot;') &amp;&amp; (flowVars.record.size()==0)]">
                 <logger message="Record does not exist to delete." level="INFO" doc:name="Log-No such record to delete"/>
                 <set-payload value="Record does not exist to delete" doc:name="SetDelResponse"/>
-            </when>
+            </when>            
             <otherwise>
                 <logger message="No operation" level="INFO" doc:name="Logger"/>
+                <set-payload value="{    &quot;success&quot;:false,    &quot;message&quot;:&quot;No operation&quot; }" doc:name="Set Payload"/>
             </otherwise>
         </choice>
+        <async doc:name="endAsyncLogging">
+            <dw:transform-message doc:name="createauditLoggingVar">
+                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
+%output application/java
+---
+{
+   "uuid": sessionVars.uuid default null,
+   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
+   "flowStep": "start", //It is used to identify the step for logging start/ end
+   "version":"1.0",  
+   "transactionId": "", //Unique messageId ID eg: customer email address
+   "message":"", //It is used to store the detailed descriptive text about the event or message
+   "eventName": "inserted/updated/deleted the record" 
+}]]></dw:set-variable>
+            </dw:transform-message>
+            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
+        </async>
+
         <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
 
     </flow>
     <flow name="cosmos-db-rms-delete-flow">
         <dw:transform-message doc:name="Transform Message">
-            <dw:set-payload><![CDATA[%dw 1.0
-%output application/json skipNullOn="everywhere"
----
-{
-        id: flowVars.record[0].id,
-        LocationCode: payload.LocationCode,
-        Brand: payload.Brand,
-        RateIdentification: payload.RateIdentification,
-        RateType: payload.RateType,
-        Description: payload.Description,
-        GDDRateIdentification: payload.GDDRateIdentification,
-        OTAValue: payload.OTAValue,
-        CMDRValue: payload.CMDRValue
-}
-]]></dw:set-payload>
+            <dw:set-payload resource="classpath:dwl/vas-data-for-delete.dwl"/>
+
         </dw:transform-message>
         <invoke method="delete" object-ref="cosmosRmsDelUtil"   doc:name="invokeRMSDel" name="invokeRMSDel" methodArgumentTypes="java.lang.String" methodArguments="#[payload]"/>
         <logger level="INFO" doc:name="Log-DelResponse" message="Response after Delete :::; #[payload:java.lang.String]"/>
-        <async doc:name="endAsyncLogging">
-            <dw:transform-message doc:name="createauditLoggingVar">
-                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
-%output application/java
----
-{
-   "uuid": sessionVars.uuid default null,
-   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
-   "flowStep": "start", //It is used to identify the step for logging start/ end
-   "version":"1.0",  
-   "transactionId": flowVars.record[0].id, //Unique messageId ID eg: customer email address
-   "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "delete record"
-}]]></dw:set-variable>
-            </dw:transform-message>
-            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
-        </async>
         <set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
 }" mimeType="application/json" doc:name="SetDelResponse"/>
-        <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>		
+        <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+		
     </flow>
 
     <flow name="cosmos-db-rms-insert-flow">
         <dw:transform-message doc:name="Transform Message">
-            <dw:set-payload><![CDATA[%dw 1.0
-%output application/json skipNullOn="everywhere"
----
-{
-        LocationCode: payload.LocationCode,
-        Brand: payload.Brand,
-        RateIdentification: payload.RateIdentification,
-        RateType: payload.RateType,
-        Description: payload.Description,
-        GDDRateIdentification: payload.GDDRateIdentification,
-        OTAValue: payload.OTAValue,
-        CMDRValue: payload.CMDRValue
-}
-]]></dw:set-payload>
+            <dw:set-payload resource="classpath:dwl/vas-data-for-insert.dwl"/>
+
         </dw:transform-message>
         <invoke name="Rms" object-ref="cosmosRmsUtil" method="save" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="Rms"/>
 
-    	<logger level="INFO"  doc:name="Log-InsertResponse" message="Insert DB :: #[payload:java.lang.String]"/>
-    	<async doc:name="endAsyncLogging">
-            <dw:transform-message doc:name="createauditLoggingVar">
-                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
-%output application/java
----
-{
-   "uuid": sessionVars.uuid default null,
-   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
-   "flowStep": "start", //It is used to identify the step for logging start/ end
-   "version":"1.0",  
-   "transactionId": payload.id, //Unique messageId ID eg: customer email address
-   "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "insert record"
-}]]></dw:set-variable>
-            </dw:transform-message>
-            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
-        </async>
-        <set-payload value="{
+    	<logger level="INFO"  doc:name="Log-InsertResponse" message="Response after Insert :: #[payload:java.lang.String]"/>
+    	<set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
 }" mimeType="application/json" doc:name="SetInsertResponse"/>
         <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+
     </flow>
     <flow name="cosmos-db-rms-update-flow">
     <dw:transform-message doc:name="Transform Message">
-            <dw:set-payload><![CDATA[%dw 1.0
-%output application/json skipNullOn="everywhere"
----
-{
-		id: flowVars.record[0].id,
-        LocationCode: payload.LocationCode,
-        Brand: payload.Brand,
-        RateIdentification: payload.RateIdentification,
-        RateType: payload.RateType,
-        Description: payload.Description,
-        GDDRateIdentification: payload.GDDRateIdentification,
-        OTAValue: 1,
-        CMDRValue: payload.CMDRValue
-}
-]]></dw:set-payload>
+            <dw:set-payload resource="classpath:dwl/vas-data-for-update.dwl"/>
+
         </dw:transform-message>
     	<invoke method="save" object-ref="cosmosRmsUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="updateRms" name="updateRms"/>
         <logger message="Response after update :#[payload:java.lang.String]" level="INFO" doc:name="Log-UpdateResponse"/>
-        <async doc:name="endAsyncLogging">
-            <dw:transform-message doc:name="createauditLoggingVar">
-                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
-%output application/java
----
-{
-   "uuid": sessionVars.uuid default null,
-   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
-   "flowStep": "start", //It is used to identify the step for logging start/ end
-   "version":"1.0",  
-   "transactionId": flowVars.record[0].id, //Unique messageId ID eg: customer email address
-   "message":"", //It is used to store the detailed descriptive text about the event or message
-   "eventName": "update record" 
-}]]></dw:set-variable>
-            </dw:transform-message>
-            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
-        </async>
         <set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
 }" mimeType="application/json" doc:name="SetUpdateResponse"/>
         <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+
 
     </flow>
 </mule>
