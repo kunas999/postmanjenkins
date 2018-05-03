@@ -36,28 +36,25 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             </processor-chain>
         </enricher>
 
-        <logger message="findBySize :: #[flowVars.record.size()]" level="INFO" doc:name="Log-dataSize"/>
+        <logger message="findBySize :: #[flowVars.record.size()]" level="INFO" doc:name="Log-dataSize" />
         <choice doc:name="checkDBOperation">
-            <when expression="#[dw('payload.InsertDeleteCode==&quot;D&quot;') &amp;&amp; (flowVars.record.size()==1)]">
-                <logger message="Invoking delete flow" level="INFO" doc:name="Log-DelFlow"/>
+            <when expression="#[dw('payload.InsertDeleteCode==&quot;D&quot;')]">
+                <logger message="Invoking delete flow" level="INFO" doc:name="Log-DelFlow" />
                 <flow-ref name="cosmos-db-rms-delete-flow" doc:name="cosmos-db-rms-delete-flow"/>
             </when>
             <when expression="#[dw('payload.InsertDeleteCode==&quot;I&quot;') &amp;&amp; (flowVars.record.size()==1)]">
-                <logger message="Calling Update Flow" level="INFO" doc:name="Log-Update flow"/>
+                <logger message="Calling Update Flow" level="INFO" doc:name="Log-Update flow" />
                 <flow-ref name="cosmos-db-rms-update-flow" doc:name="cosmos-db-rms-update-flow"/>
             </when>
             <when expression="#[dw('payload.InsertDeleteCode==&quot;I&quot;') &amp;&amp; (flowVars.record.size()==0)]">
-                <logger message="Invoking insert flow" level="INFO" doc:name="Log-insert flow"/>
+                <logger message="Invoking insert flow" level="INFO" doc:name="Log-insert flow" />
 
                 <flow-ref name="cosmos-db-rms-insert-flow" doc:name="cosmos-db-rms-insert-flow"/>
             </when>
-            <when expression="#[dw('payload.InsertDeleteCode==&quot;D&quot;') &amp;&amp; (flowVars.record.size()==0)]">
-                <logger message="Record does not exist to delete." level="INFO" doc:name="Log-No such record to delete"/>
-                <set-payload value="Record does not exist to delete" doc:name="SetDelResponse"/>
-            </when>            
+            
             <otherwise>
-                <logger message="No operation" level="INFO" doc:name="Logger"/>
-                <set-payload value="{    &quot;success&quot;:false,    &quot;message&quot;:&quot;No operation&quot; }" doc:name="Set Payload"/>
+                <logger message="No operation" level="INFO" doc:name="Logger" />
+                <set-payload value="{    &quot;success&quot;:false,    &quot;message&quot;:&quot;Not a valid input&quot; }" doc:name="Set Payload"/>
             </otherwise>
         </choice>
         <async doc:name="endAsyncLogging">
@@ -77,8 +74,13 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             </dw:transform-message>
             <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
         </async>
+        <catch-exception-strategy doc:name="Catch Exception Strategy">
+            <logger message="Excception :: #[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Logger"/>
+            <expression-component doc:name="Expression"><![CDATA[flowVars.exceptionMessage =  exception.cause != null ? exception.cause.message : exception.message;
+]]></expression-component>
+            <set-payload value="{  &quot;success&quot;: false,  &quot;message&quot;: &quot;#[flowVars.exceptionMessage] &quot; } " mimeType="application/json" doc:name="Set Payload"/>
+        </catch-exception-strategy>
 
-        <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
 
     </flow>
     <flow name="cosmos-db-rms-delete-flow">
@@ -87,12 +89,12 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 
         </dw:transform-message>
         <invoke method="delete" object-ref="cosmosRmsDelUtil"   doc:name="invokeRMSDel" name="invokeRMSDel" methodArgumentTypes="java.lang.String" methodArguments="#[payload]"/>
-        <logger level="INFO" doc:name="Log-DelResponse" message="Response after Delete :::; #[payload:java.lang.String]"/>
+        <logger level="INFO" doc:name="Log-DelResponse" message="Response after Delete :::; #[payload:java.lang.String]" />
         <set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
 }" mimeType="application/json" doc:name="SetDelResponse"/>
-        <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+
 		
     </flow>
 
@@ -103,12 +105,12 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         </dw:transform-message>
         <invoke name="Rms" object-ref="cosmosRmsUtil" method="save" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="Rms"/>
 
-    	<logger level="INFO"  doc:name="Log-InsertResponse" message="Response after Insert :: #[payload:java.lang.String]"/>
+    	<logger level="INFO"  doc:name="Log-InsertResponse" message="status #[message.inboundProperties.'http.status']  :: Response after Insert :: #[payload:java.lang.String]" />
     	<set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
 }" mimeType="application/json" doc:name="SetInsertResponse"/>
-        <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+
 
     </flow>
     <flow name="cosmos-db-rms-update-flow">
@@ -117,12 +119,12 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 
         </dw:transform-message>
     	<invoke method="save" object-ref="cosmosRmsUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="updateRms" name="updateRms"/>
-        <logger message="Response after update :#[payload:java.lang.String]" level="INFO" doc:name="Log-UpdateResponse"/>
+        <logger message="Response after update :#[payload:java.lang.String]" level="INFO" doc:name="Log-UpdateResponse" />
         <set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
 }" mimeType="application/json" doc:name="SetUpdateResponse"/>
-        <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+
 
 
     </flow>
