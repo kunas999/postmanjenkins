@@ -78,11 +78,20 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             <logger message="Excception :: #[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Logger"/>
             <expression-component doc:name="Expression"><![CDATA[flowVars.exceptionMessage =  exception.cause != null ? exception.cause.message : exception.message;
 ]]></expression-component>
-            <set-payload value="{  &quot;success&quot;: false,  &quot;message&quot;: &quot;#[flowVars.exceptionMessage] &quot; } " mimeType="application/json" doc:name="Set Payload"/>
+            <dw:transform-message doc:name="Transform Message">
+                <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	success: false,
+	messaage: flowVars.exceptionMessage
+}
+
+]]></dw:set-payload>
+            </dw:transform-message>
+
         </catch-exception-strategy>
-
-
-    </flow>
+	</flow>
     <flow name="cosmos-db-rms-delete-flow">
         <dw:transform-message doc:name="Transform Message">
             <dw:set-payload resource="classpath:dwl/vas-data-for-delete.dwl"/>
