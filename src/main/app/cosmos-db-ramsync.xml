@@ -79,7 +79,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	("EXTENDED_OAG": inboundProperties."http.query.params".oagCode when inboundProperties."http.query.params".oagCode != null otherwise ""),
 	("BRAND": 'Hertz' when inboundProperties."http.query.params".brand == 'ZE' otherwise
 			  'Thrifty' when inboundProperties."http.query.params".brand == 'ZT' otherwise 
-			  'Dollar' when inboundProperties."http.query.params".brand == 'ZR' otherwise ""
+			  'Dollar' when inboundProperties."http.query.params".brand == 'ZR' otherwise
+			  'FireFly' when inboundProperties."http.query.params".brand == 'FF' otherwise ""
 	)
 }]]></dw:set-payload>
         </dw:transform-message>

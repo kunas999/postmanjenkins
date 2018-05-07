@@ -8,7 +8,13 @@
              displayName: state name in full form
              type: string
              example: "Florida"
-             required: true               
+             required: true   
+           brand:
+             displayName: BRAND code to get unique location
+             type: string
+             description: The BRAND code for which State code is needed
+             example: "Hertz"
+             required: true                         
       responses:
           200:
             body:    

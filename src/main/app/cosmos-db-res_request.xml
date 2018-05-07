@@ -31,22 +31,30 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 %output application/java
 ---
 {
-	("OAG": inboundProperties."http.query.params".oagCode when inboundProperties."http.query.params".oagCode != null otherwise "")
+	("OAG": inboundProperties."http.query.params".oagCode when inboundProperties."http.query.params".oagCode != null otherwise ""),
+	("BRAND": 'Hertz' when inboundProperties."http.query.params".brand == 'ZE' otherwise
+			  'Thrifty' when inboundProperties."http.query.params".brand == 'ZT' otherwise 
+			  'Dollar' when inboundProperties."http.query.params".brand == 'ZR' otherwise
+			  'FireFly' when inboundProperties."http.query.params".brand == 'FF' otherwise ""
+	)
+
 }]]></dw:set-payload>
         </dw:transform-message>
 
-        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeLocCollectionRQ" doc:name="Invoke"/>
-        <logger message="Response from CosmosDB: #[payload]" level="DEBUG" doc:name="Logger"/>
-        <dw:transform-message doc:name="transformResponse">
-            <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
+        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>	
+        <set-variable variableName="customColumns" value="#[['mdmlocxref.EXTENDED_OAG']]" doc:name="selectColumns"/>			
+		<invoke method="findBy" object-ref="cosmosLocationsUtil" methodArguments="#[payload],#[flowVars.customColumns]" methodArgumentTypes="java.util.Map, java.util.List" name="invokeLocCollectionRQ" doc:name="Invoke"/>
+        <logger message="Response from CosmosDB: #[payload.size()]" level="DEBUG" doc:name="Logger"/>
+        <set-payload value="#[payload[0].hashMap.EXTENDED_OAG]" doc:name="Set Payload"/>
+        <dw:transform-message doc:name="Transform Message">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
-	extendedOag: payload.EXTENDED_OAG[0]
+	extendedOag: payload
 }]]></dw:set-payload>
-        </dw:transform-message>    
+        </dw:transform-message>
+     
     </flow>
   
     <flow name="retRateTypeOtaFlow">

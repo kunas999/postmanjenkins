@@ -33,7 +33,11 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 ---
 {
 	("EXTENDED_OAG": inboundProperties."http.query.params".extendedOagCode when inboundProperties."http.query.params".extendedOagCode != null otherwise ""),
-	("BRAND": inboundProperties."http.query.params".brand when inboundProperties."http.query.params".brand != null otherwise "")
+	("BRAND": 'Hertz' when inboundProperties."http.query.params".brand == 'ZE' otherwise
+			  'Thrifty' when inboundProperties."http.query.params".brand == 'ZT' otherwise 
+			  'Dollar' when inboundProperties."http.query.params".brand == 'ZR' otherwise
+			  'FireFly' when inboundProperties."http.query.params".brand == 'FF' otherwise ""
+	)
 }]]></dw:set-payload>
         </dw:transform-message>
 

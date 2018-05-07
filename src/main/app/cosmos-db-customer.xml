@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
 
     <flow name="retrieveStateCodeFlow">
         <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
@@ -33,22 +34,28 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 %output application/java
 ---
 {
-	("ISO_SUBDIVISION_NAME": inboundProperties."http.query.params".subdivision when inboundProperties."http.query.params".subdivision != null otherwise "")
+	("ISO_SUBDIVISION_NAME": inboundProperties."http.query.params".subdivision when inboundProperties."http.query.params".subdivision != null otherwise ""),
+	("BRAND": 'Hertz' when inboundProperties."http.query.params".brand == 'ZE' otherwise
+			  'Thrifty' when inboundProperties."http.query.params".brand == 'ZT' otherwise 
+			  'Dollar' when inboundProperties."http.query.params".brand == 'ZR' otherwise
+			  'FireFly' when inboundProperties."http.query.params".brand == 'FF' otherwise ""
+	)
 }]]></dw:set-payload>
         </dw:transform-message>
 
-        <logger message="Payload to Query ==&gt; #[payload]" level="DEBUG" doc:name="Logger"/>				
-		<invoke method="findBy" object-ref="cosmosLocationsUtil"   name="invokeLocCollection_State" doc:name="Invoke" methodArgumentTypes="java.util.Map" methodArguments="#[payload]"/>
+        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>
+        <set-variable variableName="customColumns" value="#[['mdmlocxref.ISO_SUBDIVISION_CODE_SHORT']]" doc:name="selectColumns"/>
+		<invoke method="findBy" object-ref="cosmosLocationsUtil"   name="invokeLocCollection_State" doc:name="Invoke" methodArgumentTypes="java.util.Map, java.util.List" methodArguments="#[payload],#[flowVars.customColumns]"/>
         <logger message="Response from CosmosDB: #[payload.size()]" level="DEBUG" doc:name="Logger"/>
-
-        <dw:transform-message doc:name="transformResponse">
-            <dw:input-payload doc:sample="src/main/resources/CosmosDBResponse_sample.json" mimeType="application/json"/>
+        <set-payload value="#[payload[0].hashMap.ISO_SUBDIVISION_CODE_SHORT]" doc:name="Set Payload"/>
+        <dw:transform-message doc:name="Transform Message">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
-	stateCode: payload[0].ISO_SUBDIVISION_CODE_SHORT
+	stateCode: payload
 }]]></dw:set-payload>
-        </dw:transform-message>    
+        </dw:transform-message>
+   
     </flow>
 </mule>
