@@ -79,15 +79,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             <expression-component doc:name="Expression"><![CDATA[flowVars.exceptionMessage =  exception.cause != null ? exception.cause.message : exception.message;
 ]]></expression-component>
             <dw:transform-message doc:name="Transform Message">
-                <dw:set-payload><![CDATA[%dw 1.0
-%output application/json
----
-{
-	success: false,
-	messaage: flowVars.exceptionMessage
-}
-
-]]></dw:set-payload>
+                <dw:set-payload resource="classpath:dwl/rms-vas-exception-message.dwl"/>
             </dw:transform-message>
 
         </catch-exception-strategy>
@@ -100,7 +92,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 
         </dw:transform-message>
         <invoke method="delete" object-ref="cosmosRmsDelUtil"   doc:name="invokeRMSDel" name="invokeRMSDel" methodArgumentTypes="java.lang.String" methodArguments="#[payload]"/>
-        <logger level="INFO" doc:name="Log-DelResponse" message="Response after Delete :::; #[payload:java.lang.String]" />
+        <logger level="DEBUG" doc:name="Log-DelResponse" message="Response after Delete :::: #[payload:java.lang.String]" />
         <set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
@@ -116,7 +108,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         </dw:transform-message>
         <invoke name="Rms" object-ref="cosmosRmsUtil" method="save" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="Rms"/>
 
-    	<logger level="INFO"  doc:name="Log-InsertResponse" message="status #[message.inboundProperties.'http.status']  :: Response after Insert :: #[payload:java.lang.String]" />
+    	<logger level="DEBUG"  doc:name="Log-InsertResponse" message="Response after Insert :: #[payload:java.lang.String]" />
     	<set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
@@ -129,9 +121,9 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             <dw:set-payload resource="classpath:dwl/vas-data-for-update.dwl"/>
 
         </dw:transform-message>
-        <logger message="Update record payload ::  #[payload:java.lang.String]" level="INFO" doc:name="Logger"/>
+
     	<invoke method="save" object-ref="cosmosRmsUtil" methodArguments="#[payload]" methodArgumentTypes="java.lang.String" doc:name="updateRms" name="updateRms"/>
-        <logger message="Response after update :#[payload:java.lang.String]" level="INFO" doc:name="Log-UpdateResponse" />
+        <logger message="Response after update :#[payload:java.lang.String]" level="DEBUG" doc:name="Log-UpdateResponse" />
         <set-payload value="{
    &quot;success&quot;:true,
    &quot;message&quot;:&quot;OK&quot;
