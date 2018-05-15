@@ -97,8 +97,12 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	<flow name="get:/customerLocation/retrieveStateCode:api-config">
 		<flow-ref name="retrieveStateCodeFlow" doc:name="retrieveStateCodeFlow" />
 	</flow>
+	
     <flow name="post:/vas:api-config">
         <flow-ref name="cosmos-db-rms-flow" doc:name="cosmos-db-rms-flow"/>
-    </flow>			
-		
+    </flow>	
+    		
+	<flow name="get:/reservation/vendorAuth:api-config">
+		<flow-ref name="cosmos-db-verify-vendor-flow" doc:name="cosmos-db-verify-vendor-flow" />
+	</flow>		
 </mule>

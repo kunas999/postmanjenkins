@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
 	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -9,7 +9,8 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
-http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
     
     <flow name="cosmos-reservation-findBy-flow">	
         <dw:transform-message doc:name="Transform Message">
@@ -103,6 +104,51 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 		<set-property propertyName="location" value="#[flowVars['location']]" doc:name="Property" />
 		<set-payload value="#[payload]" doc:name="Set Payload"/>
     	    	
+    </flow>
+    <flow name="cosmos-db-verify-vendor-flow">
+        <object-to-byte-array-transformer doc:name="Object to Byte Array"/>
+        <async doc:name="startAsyncLogging">
+            <dw:transform-message doc:name="createauditLoggingVar">
+                <dw:set-variable variableName="auditlog"><![CDATA[%dw 1.0
+%output application/java
+---
+{
+   "uuid": sessionVars.uuid default null,
+   "type": "HTTPS", //Source Transport type :  WMQ, File, SFTP,HTTP,AMQ
+   "flowStep": "lookup", //It is used to identify the step for logging start/ end
+   "version":"1.0",  
+   "transactionId": inboundProperties."http.query.params".vendorNumber default "verifyVendor", //Unique messageId ID eg: customer email address
+   "message":"", //It is used to store the detailed descriptive text about the event or message
+   "eventName": "verifyVendorAuthorization" 
+}]]></dw:set-variable>
+            </dw:transform-message>
+            <flow-ref name="auditLoggingFramework" doc:name="auditLoggingFramework"/>
+        </async>
+        <dw:transform-message doc:name="queryParamToDB">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	("CONSUMER_PRODUCT_CD": inboundProperties."http.query.params".consumerCode when inboundProperties."http.query.params".vendorNumber != null otherwise ""),
+	("VND_NBR": inboundProperties."http.query.params".vendorNumber when inboundProperties."http.query.params".vendorNumber != null otherwise ""),
+	("BRAND": inboundProperties."http.query.params".brand when inboundProperties."http.query.params".brand != null otherwise "ZE")
+}]]></dw:set-payload>
+        </dw:transform-message>
+
+        <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>
+			
+		<invoke method="findBy" object-ref="cosmosVendorUtil" methodArguments="#[payload]" methodArgumentTypes="java.util.Map" name="invokeVendorCollection" doc:name="Invoke"/>
+        <logger message="Response from CosmosDB: #[payload.size()]" level="INFO" doc:name="Logger"/>
+        <choice doc:name="Choice">
+            <when expression="#[payload.size() &gt; 0]">
+                <set-payload value="#['Authorized vendor']" doc:name="validPayload"/>
+            </when>
+            <otherwise>
+                <set-payload value="#['Not an authorized vendor']" doc:name="defaultPayload"/>
+            </otherwise>
+        </choice>
+        <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
+
     </flow>
     
 </mule>

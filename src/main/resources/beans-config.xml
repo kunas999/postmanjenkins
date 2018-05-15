@@ -13,7 +13,6 @@
  		<property name="key" value="${cosmos.key}" />
  		<property name="pojo" ref = "reservationPojo" /> 		 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.Reservation" id="reservationPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.reservation.collection.name}" />
@@ -24,7 +23,6 @@
  		<property name="key" value="${cosmos.flight.key}" />
  		<property name="pojo" ref = "flightSchedulePojo" /> 		 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.FlightSchedule" id="flightSchedulePojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.flight.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.flight.collection.name}" />
@@ -35,7 +33,6 @@
  		<property name="key" value="${cosmos.vas.key}" />
  		<property name="pojo" ref = "valueAddedServicesPojo" /> 		 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.ValueAddedServices" id="valueAddedServicesPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.vas.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.vas.collection.name}" />
@@ -46,7 +43,6 @@
  		<property name="key" value="${cosmosdb.key}" />
  		<property name="pojo" ref = "ramCarClassPojo" /> 		 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.RamCarClass" id="ramCarClassPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmosdb.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.carclass.collection.name}" />
@@ -57,7 +53,6 @@
  		<property name="key" value="${cosmosdb.key}" />
  		<property name="pojo" ref = "LocationsPojo" /> 		 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.Locations" id="LocationsPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmosdb.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.loc.collection.name}" />
@@ -68,7 +63,6 @@
  		<property name="key" value="${cosmosdb.key}" />
  		<property name="pojo" ref = "ramChargeIndPojo" /> 		 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.RamChargeInd" id="ramChargeIndPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmosdb.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.chargeind.collection.name}" />
@@ -79,7 +73,6 @@
  		<property name="key" value="${cosmosdb.key}" />
  		<property name="pojo" ref = "RateTypePojo" /> 		 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.RateType" id="RateTypePojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmosdb.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.ratetype.collection.name}" />
@@ -91,7 +84,6 @@
  		<property name="key" value="${cosmosdb.rms.key}" />
  		<property name="pojo" ref="rmsPojo" /> 
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.Rms" id="rmsPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.rms.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.rms.collection.name}" />
@@ -103,10 +95,19 @@
  		<property name="key" value="${cosmosdb.rms.key}" />
  		<property name="pojo" ref="rmsDelPojo" />
  	</bean>
- 	
  	<bean class="com.hertz.cosmos.pojo.RmsDel" id="rmsDelPojo" depends-on="Secure_Property_Placeholder-cosmos">
  		<constructor-arg name="databaseName" value="${cosmos.rms.database}" />
  		<constructor-arg name="collectionId" value="${cosmos.rms.collection.name}" />
  	</bean>
+ 	
+    <bean class="com.hertz.cosmos.utils.CosmosUtils" id="cosmosVendorUtil" depends-on="vendorPojo" scope="prototype">
+ 		<property name="endpoint" value="${cosmosdb.endpoint}" />
+ 		<property name="key" value="${cosmosdb.key}" />
+ 		<property name="pojo" ref="vendorPojo" />
+ 	</bean>
+ 	<bean class="com.hertz.cosmos.pojo.Vendor" id="vendorPojo" depends-on="Secure_Property_Placeholder-cosmos">
+ 		<constructor-arg name="databaseName" value="${cosmosdb.database}" />
+ 		<constructor-arg name="collectionId" value="${cosmos.vendor.collection.name}" />
+ 	</bean> 	
    
 </beans>

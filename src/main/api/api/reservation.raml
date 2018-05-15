@@ -160,4 +160,36 @@
               404: 
                 description: No record found in the source system for the given search criteria
                 body:
-                  schema: error                                                     
+                  schema: error
+    /vendorAuth:
+        get:
+          is: [client-id-required]
+          description: check if the given vendor is authorized to perform any action in Hertz systems
+          queryParameters:  
+               consumerCode:
+                 displayName: CONSUMER_PRODUCT_CD
+                 type: string
+                 description: consumer product code associated with the vendor
+                 example: "7FV5"
+                 required: true   
+               vendorNumber:
+                 displayName: VND_NBR
+                 type: string
+                 description: vendor number to identify the partner
+                 example: "T437"
+                 required: true 
+               brand:
+                 displayName: BRAND
+                 type: string
+                 description: Brand for which the authorization is being verififed
+                 example: "ZE"
+                 required: true                                               
+          responses:
+              200:
+                description: Authorized vendor
+                body:    
+              404: 
+                description: No record found in the source system for the given search criteria
+                body:
+                  schema: error 
+                                                                     
