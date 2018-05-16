@@ -126,14 +126,15 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         </async>
         <dw:transform-message doc:name="queryParamToDB">
             <dw:set-payload><![CDATA[%dw 1.0
-%output application/java
+%output application/json skipNullOn="everywhere"
 ---
 {
-	("CONSUMER_PRODUCT_CD": inboundProperties."http.query.params".consumerCode when inboundProperties."http.query.params".vendorNumber != null otherwise ""),
-	("VND_NBR": inboundProperties."http.query.params".vendorNumber when inboundProperties."http.query.params".vendorNumber != null otherwise ""),
-	("BRAND": inboundProperties."http.query.params".brand when inboundProperties."http.query.params".brand != null otherwise "ZE")
+	(CONSUMER_PRODUCT_CD: inboundProperties."http.query.params".consumerCode) when inboundProperties."http.query.params".vendorNumber != null,
+	(VND_NBR: inboundProperties."http.query.params".vendorNumber) when inboundProperties."http.query.params".vendorNumber != null,
+	"BRAND": inboundProperties."http.query.params".brand when inboundProperties."http.query.params".brand != null otherwise "ZE"
 }]]></dw:set-payload>
         </dw:transform-message>
+        <json:json-to-object-transformer returnClass="java.util.Map" doc:name="JSON to Object"/>
 
         <logger message="Payload to Query ==&gt; #[payload]" level="INFO" doc:name="Logger"/>
 			

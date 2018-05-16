@@ -14,7 +14,7 @@
   <classpathentry kind="var" path="M2_REPO/com/hertz/mule/common-error/1.2/common-error-1.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/hertz/mule/common-utils/1.2/common-utils-1.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/hertz/cosmosdb/cosmos-db-mapping/1.0.4/cosmos-db-mapping-1.0.4.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/hertz/cosmosdb/cosmos-db-mapping/1.0.6/cosmos-db-mapping-1.0.6.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar"/>
@@ -27,7 +27,7 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/mongodb/mongo-java-driver/2.11.4/mongo-java-driver-2.11.4.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/mulesoft/modules/mule-interceptor-module/3.9.1/mule-interceptor-module-3.9.1.jar">
+  <classpathentry kind="var" path="M2_REPO/com/mulesoft/modules/mule-interceptor-module/3.8.6/mule-interceptor-module-3.8.6.jar">
     <attributes>
       <attribute value="test" name="org.mule.tooling.scope"/>
     </attributes>
@@ -35,7 +35,7 @@
   <classpathentry kind="var" path="M2_REPO/org/mule/modules/mule-module-mongo/3.6.1/mule-module-mongo-3.6.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/mulesoft/security/mule-module-security-encryption/1.6.2/mule-module-security-encryption-1.6.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/mulesoft/security/mule-module-security-property-placeholder/1.6.2/mule-module-security-property-placeholder-1.6.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/mulesoft/munit/mule-munit-support/3.9.1/mule-munit-support-3.9.1.jar">
+  <classpathentry kind="var" path="M2_REPO/com/mulesoft/munit/mule-munit-support/3.8.6/mule-munit-support-3.8.6.jar">
     <attributes>
       <attribute value="test" name="org.mule.tooling.scope"/>
     </attributes>
@@ -70,7 +70,7 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-tx/4.3.9.RELEASE/spring-tx-4.3.9.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA.jar"/>
-  <classpathentry kind="var" path="M2_REPO/xerces/xercesImpl/2.9.1/xercesImpl-2.9.1.jar">
+  <classpathentry kind="var" path="M2_REPO/xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar">
     <attributes>
       <attribute value="test" name="org.mule.tooling.scope"/>
     </attributes>
