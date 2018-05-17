@@ -142,10 +142,10 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         <logger message="Response from CosmosDB: #[payload.size()]" level="INFO" doc:name="Logger"/>
         <choice doc:name="Choice">
             <when expression="#[payload.size() &gt; 0]">
-                <set-payload value="#['Authorized vendor']" doc:name="validPayload"/>
+                <set-payload value="#[{&quot;isValidVendor&quot;: &quot;Y&quot;}]" doc:name="validPayload"/>
             </when>
             <otherwise>
-                <set-payload value="#['Not an authorized vendor']" doc:name="defaultPayload"/>
+                <set-payload value="#[{&quot;isValidVendor&quot;: &quot;N&quot;}]" doc:name="defaultPayload"/>
             </otherwise>
         </choice>
         <exception-strategy ref="messagingChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
